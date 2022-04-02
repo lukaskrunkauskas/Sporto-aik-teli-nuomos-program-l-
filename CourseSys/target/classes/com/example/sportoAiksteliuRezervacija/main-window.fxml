@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.MainWindow"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="574.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.MainWindow">
+   <children>
+      <TableView fx:id="courtTable" layoutX="14.0" layoutY="11.0" prefHeight="362.0" prefWidth="542.0">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="87.0" text="Pavadinimas" />
+          <TableColumn fx:id="addressColumn" prefWidth="149.0" text="Adresas" />
+            <TableColumn fx:id="cityColumn" minWidth="6.0" prefWidth="73.0" text="Miestas" />
+            <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="140.0" text="Tipas" />
+            <TableColumn fx:id="costColumn" prefWidth="91.0" text="Kaina" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
