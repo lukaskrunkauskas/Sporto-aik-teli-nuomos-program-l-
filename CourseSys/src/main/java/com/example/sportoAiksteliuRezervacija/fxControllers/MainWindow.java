@@ -37,11 +37,14 @@ public class MainWindow implements Initializable {
     public TableView courtTable;
     @FXML
     public ComboBox cityComboBox;
+    @FXML
+    public ComboBox typeComboBox;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
     ObservableList<Court> observableList = FXCollections.observableArrayList();
     ObservableList<String> observableListComboCity = FXCollections.observableArrayList();
+    ObservableList<String> observableListComboType = FXCollections.observableArrayList();
     List<Court> CourtList = new ArrayList<>();
 
     public void getItemsFromDb() throws SQLException {
@@ -69,6 +72,16 @@ public class MainWindow implements Initializable {
             observableListComboCity.add("SIAULIAI");
             observableListComboCity.add("VISI");
             cityComboBox.setItems(observableListComboCity);
+            observableListComboType.add("LAUKO_FUTBOLAS");
+            observableListComboType.add("SALES_FUTBOLAS");
+            observableListComboType.add("KREPSINIS");
+            observableListComboType.add("SALES_TINKLINIS");
+            observableListComboType.add("LAUKO_TINKLINIS");
+            observableListComboType.add("STALO_TENISAS");
+            observableListComboType.add("LAUKO_TENISAS");
+            observableListComboType.add("MANIEZAS");
+            observableListComboType.add("VISI");
+            typeComboBox.setItems(observableListComboType);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,6 +93,18 @@ public class MainWindow implements Initializable {
             if(court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())){
                 observableList.add(court);
             } else if(cityComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")){
+                observableList.add(court);
+            }
+        }
+        courtTable.setItems(observableList);
+    }
+
+    public void filterByType(ActionEvent actionEvent) {
+        courtTable.getItems().clear();
+        for(Court court : CourtList){
+            if(court.getType().toString().equals(typeComboBox.getSelectionModel().getSelectedItem().toString())){
+                observableList.add(court);
+            } else if(typeComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")){
                 observableList.add(court);
             }
         }
