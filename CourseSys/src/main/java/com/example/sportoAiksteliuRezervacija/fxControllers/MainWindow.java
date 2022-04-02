@@ -10,8 +10,4 @@ public class MainWindow implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
-    public static void main(String[] args) {
-
-    }
 }
