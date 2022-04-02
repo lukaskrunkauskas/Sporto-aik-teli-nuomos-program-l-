@@ -1,5 +1,6 @@
 package com.example.sportoAiksteliuRezervacija.fxControllers;
 
+import com.example.sportoAiksteliuRezervacija.controls.DbUtils;
 import com.example.sportoAiksteliuRezervacija.ds.Court;
 import com.example.sportoAiksteliuRezervacija.ds.Reservation;
 import com.example.sportoAiksteliuRezervacija.ds.Schedule;
@@ -19,9 +20,11 @@ import javafx.scene.text.Text;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
 
 public class ReservationWindow implements Initializable {
     @FXML
@@ -35,14 +38,15 @@ public class ReservationWindow implements Initializable {
     @FXML
     public TextField csvField;
     @FXML
-    public TextField nameField;
-    @FXML
-    public TextField surnameField;
+    public TextField nameAndSurnameField;
     @FXML
     public DatePicker cardExpirationDateField;
 
-    int courtId=1; //veliau gausiu is paieskos lango
+    int courtId=1; //veli// au gausiu is paieskos lango
     int userId=1;
+    private Connection connection;
+    private Statement statement;
+    private boolean check=false;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
@@ -67,38 +71,62 @@ public class ReservationWindow implements Initializable {
         courtDescriptionField.setText(selectedCourt.getDescription());
     }
 
-    private void fillInputFieldsIfNotFirstUse() {
-        Court selectedCourt = courtHibControl.getCourtById(courtId);
-
-    }
-
-    private void saveReservationInfo() {
-        Court selectedCourt = courtHibControl.getCourtById(courtId);
-        Reservation reservation = new Reservation(nameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
-        reservationHibControl.createReservation(reservation);
+    private void fillInputFieldsIfNotFirstUse() throws SQLException {
+        connection = DbUtils.connectToDb();
+        statement = connection.createStatement();
+        String query = "SELECT userReservations_id FROM User_Reservation WHERE User_id = '" + userId + "'";
+        ResultSet rs = statement.executeQuery(query);
+        int id = 0;
+        while(rs.next()) {
+            id = rs.getInt("userReservations_id");
+        }
+        DbUtils.disconnectFromDb(connection, statement);
+        check = id != 0;
+        if(check) {
+            Reservation reservation = reservationHibControl.getReservationById(id);
+            nameAndSurnameField.setText(String.valueOf(reservation.getCardHolder()));
+            bankAccountField.setText(String.valueOf(reservation.getCardNumber()));
+            csvField.setText(String.valueOf(reservation.getCardCvc()));
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            fillInputFieldsIfNotFirstUse();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         fillReservationDateListTable();
         fillNameAndDescriptionFields();
     }
 
-    public void confirmAndReserve(ActionEvent actionEvent) {
+    public void saveReservationAndReserve(ActionEvent actionEvent) {
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
         List<String> selectedIntervalDates = reservationDateList.getSelectionModel().getSelectedItems();
+        List<Reservation> userReservationList = new ArrayList<>();
+        User user = userHibControl.getUserById(userId);
+
+        Reservation reservation = new Reservation(nameAndSurnameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
+        if(!check) {
+            reservationHibControl.createReservation(reservation);
+        }
+        userReservationList.add(reservation);
+
 
         for(Schedule schedule : reservationDatesFromDb) {
             if (!schedule.getTaken()) {
                 for (String dateInterval : selectedIntervalDates) {
                     if ((schedule.getStartDate() + " - " + schedule.getEndDate()).equals(dateInterval)) {
-                        schedule.setTaken(true);
+
                         scheduleHibControl.editSchedule(schedule);
+                        user.setUserReservations(userReservationList);
+                        userHibControl.editUser(user);
+                        schedule.setTaken(true);
                     }
                 }
             }
-            saveReservationInfo();
         }
     }
 }

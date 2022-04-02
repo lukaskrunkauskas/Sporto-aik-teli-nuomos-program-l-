@@ -7,7 +7,7 @@ public class DbUtils {
         Connection conn = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String DB_URL = "jdbc:mysql://localhost/course_management";
+            String DB_URL = "jdbc:mysql://localhost/sportoaiksteliurezervacija";
             String USER = "root";
             String PASS = "";
             conn = DriverManager.getConnection(DB_URL, USER, PASS);

@@ -20,12 +20,10 @@
       <TextField fx:id="csvField" layoutX="79.0" layoutY="276.0" />
       <Text layoutX="81.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Galiojimo data" />
       <Text layoutX="346.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Laisvi rezervacijos laikai" />
-      <Button layoutX="315.0" layoutY="360.0" mnemonicParsing="false" onAction="#confirmAndReserve" text="Rezervuoti" />
+      <Button layoutX="315.0" layoutY="360.0" mnemonicParsing="false" onAction="#saveReservationAndReserve" text="Rezervuoti" />
       <Button layoutX="224.0" layoutY="360.0" mnemonicParsing="false" text="Grįžti" />
-      <TextField fx:id="nameField" layoutX="79.0" layoutY="138.0" />
-      <Text layoutX="73.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vardas" />
-      <Text layoutX="79.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pavarde" />
-      <TextField fx:id="surnameField" layoutX="79.0" layoutY="188.0" />
+      <TextField fx:id="nameAndSurnameField" layoutX="79.0" layoutY="176.0" />
+      <Text layoutX="71.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vardas ir pavarde" />
       <DatePicker fx:id="cardExpirationDateField" layoutX="77.0" layoutY="320.0" />
    </children>
 </AnchorPane>
