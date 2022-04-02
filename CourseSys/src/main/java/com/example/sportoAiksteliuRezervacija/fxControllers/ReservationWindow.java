@@ -72,6 +72,12 @@ public class ReservationWindow implements Initializable {
 
     }
 
+    private void saveReservationInfo() {
+        Court selectedCourt = courtHibControl.getCourtById(courtId);
+        Reservation reservation = new Reservation(nameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
+        reservationHibControl.createReservation(reservation);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillReservationDateListTable();
@@ -92,6 +98,7 @@ public class ReservationWindow implements Initializable {
                     }
                 }
             }
+            saveReservationInfo();
         }
     }
 }
