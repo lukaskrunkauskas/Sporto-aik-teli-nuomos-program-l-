@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="401.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.MainWindow">
    <children>
-      <TableView fx:id="courtTable" layoutX="14.0" layoutY="11.0" prefHeight="362.0" prefWidth="542.0">
+      <TableView fx:id="courtTable" layoutX="14.0" layoutY="11.0" onMouseClicked="#moveToCourtReservation" prefHeight="362.0" prefWidth="542.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="87.0" text="Pavadinimas" />
           <TableColumn fx:id="addressColumn" prefWidth="149.0" text="Adresas" />

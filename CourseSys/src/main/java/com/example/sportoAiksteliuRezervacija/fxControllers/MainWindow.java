@@ -20,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.persistence.EntityManagerFactory;
@@ -147,6 +148,15 @@ public class MainWindow implements Initializable {
     //TODO pakeisti profile edi fxml
     public void moveToProfileEdit(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("profile-edit.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+        stage.setTitle("Profile edit");
+        stage.setScene(scene);
+        stage.show();
+    }
+    //TODO paduoti aiksteles ir userio id
+    public void moveToCourtReservation(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("reservation-window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
         stage.setTitle("Profile edit");
