@@ -1,30 +1,24 @@
 package com.example.sportoAiksteliuRezervacija.fxControllers;
 
-import com.example.sportoAiksteliuRezervacija.controls.DbUtils;
 import com.example.sportoAiksteliuRezervacija.ds.Court;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CityType;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CourtType;
 import com.example.sportoAiksteliuRezervacija.hibernateControllers.CourtHibControl;
-import com.mysql.cj.xdevapi.Type;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.net.Proxy;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,11 +35,13 @@ public class MainWindow implements Initializable {
     public TableColumn<String, Court> costColumn;
     @FXML
     public TableView courtTable;
+    @FXML
+    public ComboBox cityComboBox;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
     ObservableList<Court> observableList = FXCollections.observableArrayList();
-    ObservableList<String> observableListCombo = FXCollections.observableArrayList();
+    ObservableList<String> observableListComboCity = FXCollections.observableArrayList();
     List<Court> CourtList = new ArrayList<>();
 
     public void getItemsFromDb() throws SQLException {
@@ -66,8 +62,27 @@ public class MainWindow implements Initializable {
             for(Court court : CourtList){
                 observableList.add(court);
             }
+            observableListComboCity.add("VILNIUS");
+            observableListComboCity.add("KAUNAS");
+            observableListComboCity.add("KLAIPEDA");
+            observableListComboCity.add("PANEVEZYS");
+            observableListComboCity.add("SIAULIAI");
+            observableListComboCity.add("VISI");
+            cityComboBox.setItems(observableListComboCity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void filterByCity(ActionEvent actionEvent) {
+        courtTable.getItems().clear();
+        for(Court court : CourtList){
+            if(court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())){
+                observableList.add(court);
+            } else if(cityComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")){
+                observableList.add(court);
+            }
+        }
+        courtTable.setItems(observableList);
     }
 }
