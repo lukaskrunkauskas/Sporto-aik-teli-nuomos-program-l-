@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class AdministrationWindow {
 
-    private int userId = 456546;
+    private int userId;
 
     public void setCourtFormData(int id){
         this.userId = id;
@@ -25,6 +25,10 @@ public class AdministrationWindow {
     public void newCourtButton(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("new-court.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+
+        NewCourt newCourt = fxmlLoader.getController();
+        newCourt.setCourtFormData(userId);
+
         Stage stage = (Stage) newCourtButton.getScene().getWindow();
         stage.setTitle("Add New Court");
         stage.setScene(scene);
@@ -43,13 +47,25 @@ public class AdministrationWindow {
         allCourts.setCourtFormData(userId);
 
         Stage stage = (Stage) newCourtButton.getScene().getWindow();
-        stage.setTitle("Add New Court");
+        stage.setTitle("All Courts");
         stage.setScene(scene);
         stage.show();
 
 
     }
 
-    public void userListButton(ActionEvent actionEvent) {
+    public void userListButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("all-users.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+
+
+        AllUsers allUsers = fxmlLoader.getController();
+        allUsers.setCourtFormData(userId);
+
+
+        Stage stage = (Stage) newCourtButton.getScene().getWindow();
+        stage.setTitle("Add New Court");
+        stage.setScene(scene);
+        stage.show();
     }
 }

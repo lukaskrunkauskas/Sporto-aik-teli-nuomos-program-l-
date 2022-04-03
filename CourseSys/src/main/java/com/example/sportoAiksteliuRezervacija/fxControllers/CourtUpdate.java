@@ -25,7 +25,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -53,9 +52,11 @@ public class CourtUpdate implements Initializable {
     public TextField imageUrlField;
 
     private int courtId;
+    private int userId;
 
-    public void setCourtFormData(int id){
+    public void setCourtFormData(int id, int userId){
         this.courtId = id;
+        this.userId = userId;
         nameField.setText(courtHibControl.getCourseById(courtId).getName());
         addressField.setText(courtHibControl.getCourseById(courtId).getAddress());
         costField.setText(courtHibControl.getCourseById(courtId).getCost().toString());
@@ -76,6 +77,10 @@ public class CourtUpdate implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("all-courts.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) imageViewField.getScene().getWindow();
+
+        AllCourts allCourts = fxmlLoader.getController();
+        allCourts.setCourtFormData(userId);
+
         stage.setTitle("Add New Court");
         stage.setScene(scene);
         stage.show();

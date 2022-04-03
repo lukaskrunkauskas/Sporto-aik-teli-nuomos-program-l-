@@ -84,7 +84,10 @@ public class AllCourts implements Initializable {
         Scene scene = new Scene(fxmlLoader.load());
 
         CourtUpdate courtUpdate = fxmlLoader.getController();
-        courtUpdate.setCourtFormData(court.getId());
+        courtUpdate.setCourtFormData(court.getId(), userId);
+
+
+
 
         Stage stage = (Stage) courtTable.getScene().getWindow();
         stage.setTitle("Admin");
@@ -98,6 +101,11 @@ public class AllCourts implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) courtTable.getScene().getWindow();
+
+        AdministrationWindow administrationWindow = fxmlLoader.getController();
+        administrationWindow.setCourtFormData(userId);
+
+
         stage.setTitle("Add New Court");
         stage.setScene(scene);
         stage.show();

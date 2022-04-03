@@ -62,6 +62,11 @@ public class NewCourt implements Initializable {
     ObservableList<String> observableListComboType = FXCollections.observableArrayList();
     ObservableList<String> observableListComboCity = FXCollections.observableArrayList();
 
+    private int userId;
+
+    public void setCourtFormData(int id){
+        this.userId = id;
+    }
 
     public void filterCityComboBox(ActionEvent actionEvent) {
 
@@ -74,6 +79,11 @@ public class NewCourt implements Initializable {
     public void backButton() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+
+        AdministrationWindow administrationWindow = fxmlLoader.getController();
+        administrationWindow.setCourtFormData(userId);
+
+
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.setTitle("Admin");
         stage.setScene(scene);
