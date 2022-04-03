@@ -17,23 +17,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class NewCourt implements Initializable {
-
+public class CourtUpdate implements Initializable {
+    @FXML
+    public Button backButton;
+    @FXML
+    public Button submitButton;
     @FXML
     public TextField nameField;
     @FXML
@@ -45,57 +46,78 @@ public class NewCourt implements Initializable {
     @FXML
     public ComboBox typeComboBox;
     @FXML
-    public Button backButton;
-    @FXML
-    public Button submitButton;
-    @FXML
     public TextField addressField;
-    @FXML
-    public ImageView imageView;
     @FXML
     public ImageView imageViewField;
     @FXML
     public TextField imageUrlField;
+
+    private int courtId;
+
+    public void setCourtFormData(int id){
+        this.courtId = id;
+        nameField.setText(courtHibControl.getCourseById(courtId).getName());
+        addressField.setText(courtHibControl.getCourseById(courtId).getAddress());
+        costField.setText(courtHibControl.getCourseById(courtId).getCost().toString());
+        descriptionField.setText(courtHibControl.getCourseById(courtId).getDescription());
+        imageUrlField.setText(courtHibControl.getCourseById(courtId).getPictureUrl());
+        cityComboBox.getSelectionModel().select(courtHibControl.getCourseById(courtId).getCity());
+        typeComboBox.getSelectionModel().select(courtHibControl.getCourseById(courtId).getType());
+
+    }
+
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
     ObservableList<String> observableListComboType = FXCollections.observableArrayList();
     ObservableList<String> observableListComboCity = FXCollections.observableArrayList();
 
-
-    public void filterCityComboBox(ActionEvent actionEvent) {
-
-
-    }
-
-    public void filterTypeComboBox(ActionEvent actionEvent) {
-    }
-
     public void backButton() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("all-courts.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.setTitle("Admin");
+        Stage stage = (Stage) imageViewField.getScene().getWindow();
+        stage.setTitle("Add New Court");
         stage.setScene(scene);
         stage.show();
     }
 
     public void submitButton(ActionEvent actionEvent) throws IOException {
         List<Schedule> EmptyList = Collections.<Schedule>emptyList();
-        Court court = new Court(nameField.getText(), addressField.getText(), descriptionField.getText(), CityType.valueOf(cityComboBox.getSelectionModel().getSelectedItem().toString()), CourtType.valueOf(typeComboBox.getSelectionModel().getSelectedItem().toString()), Double.parseDouble(costField.getText()), imageUrlField.getText(), EmptyList);
-        courtHibControl.createCourt(court);
-        backButton();
 
-   }
+        Court court = courtHibControl.getCourseById(courtId);
+        court.setAddress(addressField.getText());
+        court.setName(nameField.getText());
+        court.setCost(Double.parseDouble(costField.getText()));
+        court.setDescription(descriptionField.getText());
+        court.setPictureUrl(imageUrlField.getText());
+        court.setCity(CityType.valueOf(cityComboBox.getSelectionModel().getSelectedItem().toString()));
+        court.setType(CourtType.valueOf(typeComboBox.getSelectionModel().getSelectedItem().toString()));
+        courtHibControl.editCourt(court);
+        backButton();
+    }
+
+    public void filterCityComboBox(ActionEvent actionEvent) {
+    }
+
+    public void filterTypeComboBox(ActionEvent actionEvent) {
+    }
+
+    public void imageView(MouseEvent mouseEvent) {
+    }
+
+    public void uploadButton(ActionEvent actionEvent) {
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         observableListComboCity.add("VILNIUS");
         observableListComboCity.add("KAUNAS");
         observableListComboCity.add("KLAIPEDA");
         observableListComboCity.add("PANEVEZYS");
         observableListComboCity.add("SIAULIAI");
         cityComboBox.setItems(observableListComboCity);
+
 
         observableListComboType.add("LAUKO_FUTBOLAS");
         observableListComboType.add("SALES_FUTBOLAS");
@@ -107,23 +129,9 @@ public class NewCourt implements Initializable {
         observableListComboType.add("MANIEZAS");
         typeComboBox.setItems(observableListComboType);
 
+
+
     }
 
-    //-------------------------NUOTRAUKOS IKELIMAS -----------------------
-    public void imageView(MouseEvent mouseEvent) throws IOException {
 
-
-//        URL url = new URL(imageUrlField.getText());
-//        Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//        imageView.setImageBitmap(bitmap)
-    }
-
-    public void uploadButton(ActionEvent actionEvent) {
-//        File file = new File(imageUrlField.getText());
-//        Image image = new Image(file.toURI().toString());
-//        imageView = new ImageView(image);
-//        imageView.setImage(image);
-//        Image image = new Image(getClass().getResourceAsStream("s.png"));
-//        imageView.setImage(image);
-    }
 }

@@ -86,4 +86,9 @@ public class User {
     public void setReserved(List<Schedule> reserved) {
         this.reserved = reserved;
     }
+
+    @Override
+    public String toString() {
+        return id +":";
+    }
 }

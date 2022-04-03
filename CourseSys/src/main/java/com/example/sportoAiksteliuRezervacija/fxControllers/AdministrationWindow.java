@@ -12,6 +12,13 @@ import java.io.IOException;
 
 public class AdministrationWindow {
 
+    private int userId = 456546;
+
+    public void setCourtFormData(int id){
+        this.userId = id;
+    }
+
+
     @FXML
     public Button newCourtButton;
 
@@ -28,7 +35,19 @@ public class AdministrationWindow {
         //Kai bus paruostas main window.
     }
 
-    public void courtListButton(ActionEvent actionEvent) {
+    public void courtListButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("all-courts.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        AllCourts allCourts = fxmlLoader.getController();
+        allCourts.setCourtFormData(userId);
+
+        Stage stage = (Stage) newCourtButton.getScene().getWindow();
+        stage.setTitle("Add New Court");
+        stage.setScene(scene);
+        stage.show();
+
+
     }
 
     public void userListButton(ActionEvent actionEvent) {
