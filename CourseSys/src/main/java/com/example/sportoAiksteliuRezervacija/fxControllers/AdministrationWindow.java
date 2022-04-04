@@ -35,8 +35,17 @@ public class AdministrationWindow {
         stage.show();
     }
 
-    public void backButton(ActionEvent actionEvent) {
-        //Kai bus paruostas main window.
+    public void backButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        MainWindow mainWindow = fxmlLoader.getController();
+       //TODO mainWindow.setCourtFormData(userId);
+
+        Stage stage = (Stage) newCourtButton.getScene().getWindow();
+        stage.setTitle("All Courts");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void courtListButton(ActionEvent actionEvent) throws IOException {

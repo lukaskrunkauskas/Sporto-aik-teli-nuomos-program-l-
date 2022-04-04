@@ -13,10 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -90,11 +87,29 @@ public class NewCourt implements Initializable {
         stage.show();
     }
 
+    public void alertMsg(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Klaida!");
+        alert.setHeaderText(null);
+        alert.setContentText("Neužpildėte visų laukų");
+
+        alert.showAndWait();
+    }
+
+    public boolean checkIfEmpty(String fieldValue){
+        if(fieldValue.length() == 0) return true;
+        return false;
+    }
+
     public void submitButton(ActionEvent actionEvent) throws IOException {
-        List<Schedule> EmptyList = Collections.<Schedule>emptyList();
-        Court court = new Court(nameField.getText(), addressField.getText(), descriptionField.getText(), CityType.valueOf(cityComboBox.getSelectionModel().getSelectedItem().toString()), CourtType.valueOf(typeComboBox.getSelectionModel().getSelectedItem().toString()), Double.parseDouble(costField.getText()), imageUrlField.getText(), EmptyList);
-        courtHibControl.createCourt(court);
-        backButton();
+        if( checkIfEmpty(nameField.getText()) == true || checkIfEmpty(addressField.getText()) == true || checkIfEmpty(descriptionField.getText())== true || cityComboBox.getSelectionModel().getSelectedIndex() == -1 ||typeComboBox.getSelectionModel().getSelectedIndex() == -1 || checkIfEmpty(imageUrlField.getText()) == true || costField.getText() == "") alertMsg();
+        else
+        {
+            List<Schedule> EmptyList = Collections.<Schedule>emptyList();
+            Court court = new Court(nameField.getText(), addressField.getText(), descriptionField.getText(), CityType.valueOf(cityComboBox.getSelectionModel().getSelectedItem().toString()), CourtType.valueOf(typeComboBox.getSelectionModel().getSelectedItem().toString()), Double.parseDouble(costField.getText()), imageUrlField.getText(), EmptyList);
+            courtHibControl.createCourt(court);
+            backButton();
+        }
 
    }
 
@@ -119,7 +134,7 @@ public class NewCourt implements Initializable {
 
     }
 
-    //-------------------------NUOTRAUKOS IKELIMAS -----------------------
+    //TODO-------------------------NUOTRAUKOS IKELIMAS -----------------------
     public void imageView(MouseEvent mouseEvent) throws IOException {
 
 
