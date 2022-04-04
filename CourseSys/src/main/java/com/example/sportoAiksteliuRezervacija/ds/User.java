@@ -18,20 +18,17 @@ public class User {
     @OneToMany
     private List<Schedule> reserved;
 
-    @OneToMany
-    private List<Reservation> userReservations;
-
     public User() {
     }
 
-    public User(String username, String password, String email, UserType userType, String pictureUrl, List<Schedule> reserved, List<Reservation> userReservations) {
+    public User(int id, String username, String password, String email, UserType userType, String pictureUrl, List<Schedule> reserved) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.userType = userType;
         this.pictureUrl = pictureUrl;
         this.reserved = reserved;
-        this.userReservations = userReservations;
     }
 
     public int getId() {
@@ -90,11 +87,8 @@ public class User {
         this.reserved = reserved;
     }
 
-    public List<Reservation> getUserReservations() {
-        return userReservations;
-    }
-
-    public void setUserReservations(List<Reservation> userReservations) {
-        this.userReservations = userReservations;
+    @Override
+    public String toString() {
+        return id +":";
     }
 }
