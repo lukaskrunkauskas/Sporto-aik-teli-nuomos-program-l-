@@ -61,7 +61,7 @@ public class NewCourt implements Initializable {
 
     private int userId;
 
-    public void setCourtFormData(int id){
+    public void setCourtFormData(int id) {
         this.userId = id;
     }
 
@@ -87,7 +87,7 @@ public class NewCourt implements Initializable {
         stage.show();
     }
 
-    public void alertMsg(){
+    public void alertMsg() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Klaida!");
         alert.setHeaderText(null);
@@ -96,22 +96,22 @@ public class NewCourt implements Initializable {
         alert.showAndWait();
     }
 
-    public boolean checkIfEmpty(String fieldValue){
-        if(fieldValue.length() == 0) return true;
+    public boolean checkIfEmpty(String fieldValue) {
+        if (fieldValue.length() == 0) return true;
         return false;
     }
 
     public void submitButton(ActionEvent actionEvent) throws IOException {
-        if( checkIfEmpty(nameField.getText()) == true || checkIfEmpty(addressField.getText()) == true || checkIfEmpty(descriptionField.getText())== true || cityComboBox.getSelectionModel().getSelectedIndex() == -1 ||typeComboBox.getSelectionModel().getSelectedIndex() == -1 || checkIfEmpty(imageUrlField.getText()) == true || costField.getText() == "") alertMsg();
-        else
-        {
+        if (checkIfEmpty(nameField.getText()) == true || checkIfEmpty(addressField.getText()) == true || checkIfEmpty(descriptionField.getText()) == true || cityComboBox.getSelectionModel().getSelectedIndex() == -1 || typeComboBox.getSelectionModel().getSelectedIndex() == -1 || checkIfEmpty(imageUrlField.getText()) == true || costField.getText() == "")
+            alertMsg();
+        else {
             List<Schedule> EmptyList = Collections.<Schedule>emptyList();
             Court court = new Court(nameField.getText(), addressField.getText(), descriptionField.getText(), CityType.valueOf(cityComboBox.getSelectionModel().getSelectedItem().toString()), CourtType.valueOf(typeComboBox.getSelectionModel().getSelectedItem().toString()), Double.parseDouble(costField.getText()), imageUrlField.getText(), EmptyList);
             courtHibControl.createCourt(court);
             backButton();
         }
 
-   }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

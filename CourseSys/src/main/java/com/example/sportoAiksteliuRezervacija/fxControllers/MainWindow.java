@@ -52,8 +52,7 @@ public class MainWindow implements Initializable {
     public ComboBox typeComboBox;
     @FXML
     public Button systemAdministrationButton;
-// TODO kai bus gautas userId istrinti priskirta reiksme
-    private int userId = 1;
+    private int userId;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
@@ -63,17 +62,8 @@ public class MainWindow implements Initializable {
     ObservableList<String> observableListComboType = FXCollections.observableArrayList();
     List<Court> CourtList = new ArrayList<>();
 
-    //TODO pakviesti sia funkcija is kito lango(logino, registravimo, administravimo, profilio redagavimo)
-    public void setFormData(int id){
+    public void setFormData(int id) {
         this.userId = id;
-    }
-
-    public void getItemsFromDb() throws SQLException {
-        CourtList = courtHibControl.getAllCourts(true, -1, -1);
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             getItemsFromDb();
             CourtList.sort((o1, o2) -> Double.compare(o2.getCost(), o1.getCost()));
@@ -83,7 +73,7 @@ public class MainWindow implements Initializable {
             typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
             courtTable.setItems(observableList);
-            for(Court court : CourtList){
+            for (Court court : CourtList) {
                 observableList.add(court);
             }
             observableListComboCity.add("VILNIUS");
@@ -104,19 +94,28 @@ public class MainWindow implements Initializable {
             observableListComboType.add("VISI");
             typeComboBox.setItems(observableListComboType);
             User user = userHibControl.getUserById(userId);
-            if(user.getUserType().equals(UserType.USER)) systemAdministrationButton.setVisible(false);
+            if (user.getUserType().equals(UserType.USER)) systemAdministrationButton.setVisible(false);
             else systemAdministrationButton.setVisible(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public void getItemsFromDb() throws SQLException {
+        CourtList = courtHibControl.getAllCourts(true, -1, -1);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
     public void filterByCity(ActionEvent actionEvent) {
         courtTable.getItems().clear();
-        for(Court court : CourtList){
-            if(court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())){
+        for (Court court : CourtList) {
+            if (court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())) {
                 observableList.add(court);
-            } else if(cityComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")){
+            } else if (cityComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")) {
                 observableList.add(court);
             }
         }
@@ -125,48 +124,51 @@ public class MainWindow implements Initializable {
 
     public void filterByType(ActionEvent actionEvent) {
         courtTable.getItems().clear();
-        for(Court court : CourtList){
-            if(court.getType().toString().equals(typeComboBox.getSelectionModel().getSelectedItem().toString())){
+        for (Court court : CourtList) {
+            if (court.getType().toString().equals(typeComboBox.getSelectionModel().getSelectedItem().toString())) {
                 observableList.add(court);
-            } else if(typeComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")){
+            } else if (typeComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")) {
                 observableList.add(court);
             }
         }
         courtTable.setItems(observableList);
     }
+
     public void sortByBothFilters(ActionEvent actionEvent) {
         courtTable.getItems().clear();
-        for(Court court : CourtList){
-            if(court.getType().toString().equals(typeComboBox.getSelectionModel().getSelectedItem().toString()) && court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())){
+        for (Court court : CourtList) {
+            if (court.getType().toString().equals(typeComboBox.getSelectionModel().getSelectedItem().toString()) && court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())) {
                 observableList.add(court);
-            } else if(cityComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI") && typeComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")){
+            } else if (cityComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI") && typeComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")) {
                 observableList.add(court);
             }
         }
         courtTable.setItems(observableList);
     }
+
     public void moveToSystemAdministration(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        //TODO paduoti userio id, kai bus sujungta(atkomentinti)
         AdministrationWindow administrationWindow = fxmlLoader.getController();
         administrationWindow.setCourtFormData(userId);
 
         Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-        stage.setTitle("Admin");
+        stage.setTitle("Administravimo panele");
         stage.setScene(scene);
         stage.show();
     }
+
     //TODO pakeisti log-in fxml
     public void logOut(ActionEvent actionEvent) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("log-in.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load());
-//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-//        stage.setTitle("Log in");
-//        stage.setScene(scene);
-//        stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("login-window.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+        stage.setTitle("Prisijungimas");
+        stage.setScene(scene);
+        stage.show();
     }
+
     //TODO pakeisti profile edi fxml
     public void moveToProfileEdit(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("your-profile-window.fxml"));
@@ -175,23 +177,24 @@ public class MainWindow implements Initializable {
         YourProfileWindow yourProfileWindow = fxmlLoader.getController();
         yourProfileWindow.setYourProfileWindow(userId);
         Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-        stage.setTitle("Profile edit");
+        stage.setTitle("Profilio redagavimas");
         stage.setScene(scene);
         stage.show();
     }
+
     //TODO paduoti aiksteles ir userio id
     public void moveToCourtReservation(MouseEvent mouseEvent) throws IOException {
-        if(courtTable.getSelectionModel().getSelectedIndex() != -1){
-        Court court = courtHibControl.getCourtById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("reservation-window.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        //TODO paduoti userio id, kai bus sujungta(atkomentinti)
-        ReservationWindow reservationWindow = fxmlLoader.getController();
-        reservationWindow.setCourtFormData(userId, court.getId());
-        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-        stage.setTitle("Profile edit");
-        stage.setScene(scene);
-        stage.show();
+        if (courtTable.getSelectionModel().getSelectedIndex() != -1) {
+            Court court = courtHibControl.getCourtById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
+            FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("reservation-window.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            //TODO paduoti userio id, kai bus sujungta(atkomentinti)
+            ReservationWindow reservationWindow = fxmlLoader.getController();
+            reservationWindow.setCourtFormData(userId, court.getId());
+            Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+            stage.setTitle("Aikštelių rezervacija");
+            stage.setScene(scene);
+            stage.show();
         }
     }
 }

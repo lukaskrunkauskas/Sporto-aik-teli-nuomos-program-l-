@@ -52,7 +52,7 @@ public class ReservationWindow implements Initializable {
     private int userId;
     private Connection connection;
     private Statement statement;
-    private boolean check=false;
+    private boolean check = false;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
@@ -60,7 +60,7 @@ public class ReservationWindow implements Initializable {
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
     ScheduleHibControl scheduleHibControl = new ScheduleHibControl(entityManagerFactory);
 
-    public void setCourtFormData(int userId, int courtId){
+    public void setCourtFormData(int userId, int courtId) {
         this.userId = userId;
         this.courtId = courtId;
         try {
@@ -76,8 +76,8 @@ public class ReservationWindow implements Initializable {
         reservationDateList.getItems().clear();
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
-        for(Schedule schedule : reservationDatesFromDb) {
-            if(!schedule.getTaken()) {
+        for (Schedule schedule : reservationDatesFromDb) {
+            if (!schedule.getTaken()) {
                 reservationDateList.getItems().add(schedule.getEndDate() + " - " + schedule.getStartDate());
             }
         }
@@ -95,12 +95,12 @@ public class ReservationWindow implements Initializable {
         String query = "SELECT userReservations_id FROM User_Reservation WHERE User_id = '" + userId + "'";
         ResultSet rs = statement.executeQuery(query);
         int id = 0;
-        while(rs.next()) {
+        while (rs.next()) {
             id = rs.getInt("userReservations_id");
         }
         DbUtils.disconnectFromDb(connection, statement);
         check = id != 0;
-        if(check) {
+        if (check) {
             Reservation reservation = reservationHibControl.getReservationById(id);
             nameAndSurnameField.setText(String.valueOf(reservation.getCardHolder()));
             bankAccountField.setText(String.valueOf(reservation.getCardNumber()));
@@ -121,13 +121,13 @@ public class ReservationWindow implements Initializable {
         User user = userHibControl.getUserById(userId);
 
         Reservation reservation = new Reservation(nameAndSurnameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
-        if(!check) {
+        if (!check) {
             reservationHibControl.createReservation(reservation);
         }
         userReservationList.add(reservation);
 
 
-        for(Schedule schedule : reservationDatesFromDb) {
+        for (Schedule schedule : reservationDatesFromDb) {
             if (!schedule.getTaken()) {
                 for (String dateInterval : selectedIntervalDates) {
                     if ((schedule.getEndDate() + " - " + schedule.getStartDate()).equals(dateInterval)) {
@@ -150,11 +150,12 @@ public class ReservationWindow implements Initializable {
         MainWindow mainWindow = fxmlLoader.getController();
         mainWindow.setFormData(userId);
         Stage stage = (Stage) csvField.getScene().getWindow();
-        stage.setTitle("Admin");
+        stage.setTitle("Aikštelių rezervacijos sistema");
         stage.setScene(scene);
         stage.show();
     }
-    public void alertMsg(){
+
+    public void alertMsg() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Informacija");
         alert.setHeaderText(null);

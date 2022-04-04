@@ -9,9 +9,9 @@ public class StartGui extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("login-window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Sporto aikštelių rezervacijos sistema");
+        stage.setTitle("Prisijungimas");
         stage.setScene(scene);
         stage.show();
     }

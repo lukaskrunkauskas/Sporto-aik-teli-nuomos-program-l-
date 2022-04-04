@@ -29,7 +29,7 @@ public class EditProfile implements Initializable {
     @FXML
     public TextArea information;
     User user;
-    private int userId=1;
+    private int userId;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
@@ -61,7 +61,7 @@ public class EditProfile implements Initializable {
         userHibControl.editUser(user);
     }
 
-    public void setData (int userId, User user) {
+    public void setData(int userId, User user) {
         this.userId = userId;
         this.user = user;
         user = userHibControl.getUserById(user.getId());

@@ -37,11 +37,12 @@ public class LoginWindow implements Initializable {
             Parent root = fxmlLoader.load();
 
             MainWindow mainWindow = fxmlLoader.getController();
-            mainWindow.setCourseFormData(user.getId());
+            mainWindow.setFormData(user.getId());
 
             Scene scene = new Scene(root);
 
             Stage stage = (Stage) loginF.getScene().getWindow();
+            stage.setTitle("Aikštelių rezervacijos sistema");
             stage.setScene(scene);
             stage.show();
         } else {
@@ -70,5 +71,6 @@ public class LoginWindow implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {}
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 }

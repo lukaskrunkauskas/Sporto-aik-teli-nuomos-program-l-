@@ -6,14 +6,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="271.0" prefWidth="218.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.LoginWindow">
    <children>
       <Label layoutX="35.0" layoutY="47.0" text="Login:" />
       <Label layoutX="35.0" layoutY="105.0" text="Password:" />
       <TextField fx:id="loginF" layoutX="35.0" layoutY="71.0" />
-      <Button layoutX="84.0" layoutY="175.0" mnemonicParsing="false" onAction="#signIn" text="Sign in" />
-      <Button layoutX="127.0" layoutY="221.0" mnemonicParsing="false" onAction="#signUp" text="Sign up" />
+      <Button layoutX="75.0" layoutY="175.0" mnemonicParsing="false" onAction="#signIn" text="Prisijungti" />
+      <Button layoutX="70.0" layoutY="221.0" mnemonicParsing="false" onAction="#signUp" text="Registruotis" />
       <PasswordField fx:id="pswF" layoutX="35.0" layoutY="130.0" />
    </children>
 </AnchorPane>

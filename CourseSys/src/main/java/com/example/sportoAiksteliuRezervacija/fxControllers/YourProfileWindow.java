@@ -44,7 +44,7 @@ public class YourProfileWindow implements Initializable {
         setData(userId, user);
     }
 
-    public void setData (int userId, User user) {
+    public void setData(int userId, User user) {
         this.userId = userId;
         this.user = user;
         user = userHibControl.getUserById(user.getId());
@@ -78,6 +78,7 @@ public class YourProfileWindow implements Initializable {
 
         Scene scene = new Scene(root);
         Stage stage = (Stage) nameField.getScene().getWindow();
+        stage.setTitle("Aikštelių rezervacijos sistema");
         stage.setScene(scene);
         stage.show();
     }

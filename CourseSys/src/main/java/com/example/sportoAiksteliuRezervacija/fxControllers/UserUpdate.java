@@ -41,7 +41,7 @@ public class UserUpdate implements Initializable {
     private int userId;
     private int myId;
 
-    public void setCourtFormData(int id, int userId){
+    public void setCourtFormData(int id, int userId) {
         this.userId = id;
         this.myId = userId;
         usernameField.setText(userHibControl.getUserById(this.userId).getUsername());

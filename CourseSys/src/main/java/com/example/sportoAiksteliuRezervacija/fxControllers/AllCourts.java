@@ -46,7 +46,7 @@ public class AllCourts implements Initializable {
 
     private int userId;
 
-    public void setCourtFormData(int id){
+    public void setCourtFormData(int id) {
         this.userId = id;
     }
 
@@ -70,7 +70,7 @@ public class AllCourts implements Initializable {
             typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
             courtTable.setItems(observableList);
-            for(Court court : CourtList){
+            for (Court court : CourtList) {
                 observableList.add(court);
             }
         } catch (SQLException e) {
@@ -79,7 +79,7 @@ public class AllCourts implements Initializable {
     }
 
     public void courtClicked(MouseEvent mouseEvent) throws IOException {
-        if(courtTable.getSelectionModel().getSelectedIndex() != -1) {
+        if (courtTable.getSelectionModel().getSelectedIndex() != -1) {
             Court court = courtHibControl.getCourtById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
             FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("court-update.fxml"));
             Scene scene = new Scene(fxmlLoader.load());

@@ -54,7 +54,7 @@ public class CourtUpdate implements Initializable {
     private int courtId;
     private int userId;
 
-    public void setCourtFormData(int id, int userId){
+    public void setCourtFormData(int id, int userId) {
         this.courtId = id;
         this.userId = userId;
         nameField.setText(courtHibControl.getCourtById(courtId).getName());
@@ -133,7 +133,6 @@ public class CourtUpdate implements Initializable {
         observableListComboType.add("LAUKO_TENISAS");
         observableListComboType.add("MANIEZAS");
         typeComboBox.setItems(observableListComboType);
-
 
 
     }

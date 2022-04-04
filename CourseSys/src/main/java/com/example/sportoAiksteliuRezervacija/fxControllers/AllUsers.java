@@ -43,7 +43,7 @@ public class AllUsers implements Initializable {
 
     private int userId;
 
-    public void setCourtFormData(int id){
+    public void setCourtFormData(int id) {
         this.userId = id;
     }
 
@@ -65,6 +65,7 @@ public class AllUsers implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
     public void getItemsFromDb() throws SQLException {
         UserList = userHibControl.getAllUser();
     }
@@ -79,7 +80,7 @@ public class AllUsers implements Initializable {
             passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
             picUrlColumn.setCellValueFactory(new PropertyValueFactory<>("pictureUrl"));
             userTable.setItems(observableList);
-            for(User user : UserList){
+            for (User user : UserList) {
                 observableList.add(user);
             }
         } catch (SQLException e) {

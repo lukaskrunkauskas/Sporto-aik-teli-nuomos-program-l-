@@ -14,7 +14,7 @@ public class AdministrationWindow {
 
     private int userId;
 
-    public void setCourtFormData(int id){
+    public void setCourtFormData(int id) {
         this.userId = id;
     }
 
@@ -43,7 +43,7 @@ public class AdministrationWindow {
         mainWindow.setFormData(userId);
 
         Stage stage = (Stage) newCourtButton.getScene().getWindow();
-        stage.setTitle("All Courts");
+        stage.setTitle("Aikštelių rezervacijos sistema");
         stage.setScene(scene);
         stage.show();
     }
