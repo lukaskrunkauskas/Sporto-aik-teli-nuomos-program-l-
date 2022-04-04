@@ -16,6 +16,7 @@ public class User {
     private String information;
     private UserType userType;
     private String pictureUrl;
+    private String randomCode;
     @OneToMany
     private List<Schedule> reserved;
 
@@ -106,6 +107,14 @@ public class User {
 
     public void setUserReservations(List<Reservation> userReservations) {
         this.userReservations = userReservations;
+    }
+
+    public String getRandomCode() {
+        return randomCode;
+    }
+
+    public void setRandomCode(String randomCode) {
+        this.randomCode = randomCode;
     }
 
     @Override
