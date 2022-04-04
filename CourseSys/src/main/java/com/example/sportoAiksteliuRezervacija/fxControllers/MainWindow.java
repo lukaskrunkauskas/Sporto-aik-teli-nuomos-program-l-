@@ -51,6 +51,8 @@ public class MainWindow implements Initializable {
     public ComboBox typeComboBox;
     @FXML
     public Button systemAdministrationButton;
+// TODO kai bus gautas userId istrinti priskirta reiksme
+    private int userId = 1;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
@@ -59,6 +61,11 @@ public class MainWindow implements Initializable {
     ObservableList<String> observableListComboCity = FXCollections.observableArrayList();
     ObservableList<String> observableListComboType = FXCollections.observableArrayList();
     List<Court> CourtList = new ArrayList<>();
+
+    //TODO pakviesti sia funkcija is kito lango(logino, registravimo, administravimo, profilio redagavimo)
+    public void setCourtFormData(int id){
+        this.userId = id;
+    }
 
     public void getItemsFromDb() throws SQLException {
         CourtList = courtHibControl.getAllCourses(true, -1, -1);
@@ -95,8 +102,7 @@ public class MainWindow implements Initializable {
             observableListComboType.add("MANIEZAS");
             observableListComboType.add("VISI");
             typeComboBox.setItems(observableListComboType);
-            // TODO is logino lango gauti userid pakeisti eilute
-            User user = userHibControl.getUserById(1);
+            User user = userHibControl.getUserById(userId);
             if(user.getUserType().equals(UserType.USER)) systemAdministrationButton.setVisible(false);
             else systemAdministrationButton.setVisible(true);
         } catch (SQLException e) {
@@ -127,40 +133,62 @@ public class MainWindow implements Initializable {
         }
         courtTable.setItems(observableList);
     }
-    //TODO paduoti userio id
+    public void sortByBothFilters(ActionEvent actionEvent) {
+        courtTable.getItems().clear();
+        for(Court court : CourtList){
+            if(court.getType().toString().equals(typeComboBox.getSelectionModel().getSelectedItem().toString()) && court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())){
+                observableList.add(court);
+            } else if(cityComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI") && typeComboBox.getSelectionModel().getSelectedItem().toString().equals("VISI")){
+                observableList.add(court);
+            }
+        }
+        courtTable.setItems(observableList);
+    }
     public void moveToSystemAdministration(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-        stage.setTitle("Admin");
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load());
+
+        //TODO paduoti userio id, kai bus sujungta(atkomentinti)
+//        AdministrationWindow administrationWindow = fxmlLoader.getController();
+//        administrationWindow.setCourtFormData(userId);
+//
+//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+//        stage.setTitle("Admin");
+//        stage.setScene(scene);
+//        stage.show();
     }
     //TODO pakeisti log-in fxml
     public void logOut(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("log-in.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-        stage.setTitle("Log in");
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("log-in.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load());
+//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+//        stage.setTitle("Log in");
+//        stage.setScene(scene);
+//        stage.show();
     }
     //TODO pakeisti profile edi fxml
     public void moveToProfileEdit(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("profile-edit.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-        stage.setTitle("Profile edit");
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("profile-edit.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load());
+        //TODO paduoti userio id, kai bus sujungta(atkomentinti)
+//      AdministrationWindow administrationWindow = fxmlLoader.getController();
+//      administrationWindow.setCourtFormData(userId);
+//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+//        stage.setTitle("Profile edit");
+//        stage.setScene(scene);
+//        stage.show();
     }
     //TODO paduoti aiksteles ir userio id
     public void moveToCourtReservation(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("reservation-window.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-        stage.setTitle("Profile edit");
-        stage.setScene(scene);
-        stage.show();
+          Court court = courtHibControl.getCourseById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
+//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("reservation-window.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load());
+        //TODO paduoti userio id, kai bus sujungta(atkomentinti)
+//        AdministrationWindow administrationWindow = fxmlLoader.getController();
+//        administrationWindow.setCourtFormData(userId,court.getId());
+//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+//        stage.setTitle("Profile edit");
+//        stage.setScene(scene);
+//        stage.show();
     }
 }

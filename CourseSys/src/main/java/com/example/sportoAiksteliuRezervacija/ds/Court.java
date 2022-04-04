@@ -109,4 +109,8 @@ public class Court{
         this.pictureUrl = pictureUrl;
     }
 
+    @Override
+    public String toString() {
+        return id + ":";
+    }
 }
