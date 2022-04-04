@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.AllCourts">
+    <children>
+        <TableView fx:id="courtTable" layoutX="15.0" layoutY="14.0" onMouseClicked="#courtClicked" prefHeight="343.0" prefWidth="570.0">
+            <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="113.0" text="Pavadinimas" />
+                <TableColumn fx:id="addressColumn" prefWidth="162.0" text="Adresas" />
+                <TableColumn fx:id="cityColumn" prefWidth="120.0" text="Miestas" />
+                <TableColumn fx:id="typeColumn" prefWidth="103.0" text="Tipas" />
+                <TableColumn fx:id="costColumn" prefWidth="71.0" text="Kaina" />
+            </columns>
+        </TableView>
+      <Button layoutX="199.0" layoutY="361.0" mnemonicParsing="false" onAction="#backButton" prefHeight="25.0" prefWidth="202.0" text="Grįžti" />
+    </children>
+</AnchorPane>
