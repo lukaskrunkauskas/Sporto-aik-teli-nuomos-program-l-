@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.ProfileWindow">
+   <children>
+      <Text layoutX="21.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vardas:" wrappingWidth="68.13671875" />
+      <TextArea fx:id="information" layoutX="36.0" layoutY="213.0" prefHeight="149.0" prefWidth="381.0" />
+      <TextField fx:id="nameField" layoutX="88.0" layoutY="164.0" />
+      <Button layoutX="479.0" layoutY="337.0" mnemonicParsing="false" onAction="#back" text="Grįžti" />
+   </children>
+</AnchorPane>

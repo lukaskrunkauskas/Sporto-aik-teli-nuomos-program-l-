@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="469.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.YourProfileWindow">
+   <children>
+      <Text layoutX="24.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vardas:" wrappingWidth="68.13671875" />
+      <Button layoutX="471.0" layoutY="40.0" mnemonicParsing="false" onAction="#editProfile" text="Redaguoti profilį" />
+      <TextArea fx:id="information" layoutX="24.0" layoutY="292.0" prefHeight="149.0" prefWidth="381.0" />
+      <TextField fx:id="nameField" layoutX="92.0" layoutY="178.0" />
+      <TextField fx:id="email" layoutX="92.0" layoutY="237.0" />
+      <Text layoutX="24.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="El. paštas:" wrappingWidth="54.982421875" />
+      <Button layoutX="498.0" layoutY="416.0" mnemonicParsing="false" onAction="#back" text="Grįžti" />
+   </children>
+</AnchorPane>
