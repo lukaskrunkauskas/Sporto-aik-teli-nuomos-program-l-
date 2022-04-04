@@ -2,6 +2,7 @@ package com.example.sportoAiksteliuRezervacija.fxControllers;
 
 import com.example.sportoAiksteliuRezervacija.StartGui;
 import com.example.sportoAiksteliuRezervacija.ds.Court;
+import com.example.sportoAiksteliuRezervacija.ds.Reservation;
 import com.example.sportoAiksteliuRezervacija.ds.User;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CityType;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CourtType;
@@ -68,7 +69,7 @@ public class MainWindow implements Initializable {
     }
 
     public void getItemsFromDb() throws SQLException {
-        CourtList = courtHibControl.getAllCourses(true, -1, -1);
+        CourtList = courtHibControl.getAllCourts(true, -1, -1);
     }
 
     @Override
@@ -145,17 +146,17 @@ public class MainWindow implements Initializable {
         courtTable.setItems(observableList);
     }
     public void moveToSystemAdministration(ActionEvent actionEvent) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load());
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("administration-window.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
 
         //TODO paduoti userio id, kai bus sujungta(atkomentinti)
-//        AdministrationWindow administrationWindow = fxmlLoader.getController();
-//        administrationWindow.setCourtFormData(userId);
-//
-//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-//        stage.setTitle("Admin");
-//        stage.setScene(scene);
-//        stage.show();
+        AdministrationWindow administrationWindow = fxmlLoader.getController();
+        administrationWindow.setCourtFormData(userId);
+
+        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+        stage.setTitle("Admin");
+        stage.setScene(scene);
+        stage.show();
     }
     //TODO pakeisti log-in fxml
     public void logOut(ActionEvent actionEvent) throws IOException {
@@ -180,15 +181,17 @@ public class MainWindow implements Initializable {
     }
     //TODO paduoti aiksteles ir userio id
     public void moveToCourtReservation(MouseEvent mouseEvent) throws IOException {
-          Court court = courtHibControl.getCourseById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
-//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("reservation-window.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load());
+        if(courtTable.getSelectionModel().getSelectedIndex() != -1){
+        Court court = courtHibControl.getCourtById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("reservation-window.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         //TODO paduoti userio id, kai bus sujungta(atkomentinti)
-//        AdministrationWindow administrationWindow = fxmlLoader.getController();
-//        administrationWindow.setCourtFormData(userId,court.getId());
-//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-//        stage.setTitle("Profile edit");
-//        stage.setScene(scene);
-//        stage.show();
+        ReservationWindow reservationWindow = fxmlLoader.getController();
+        reservationWindow.setCourtFormData(userId, court.getId());
+        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+        stage.setTitle("Profile edit");
+        stage.setScene(scene);
+        stage.show();
+        }
     }
 }

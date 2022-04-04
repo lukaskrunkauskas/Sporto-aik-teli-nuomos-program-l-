@@ -40,7 +40,7 @@ public class AdministrationWindow {
         Scene scene = new Scene(fxmlLoader.load());
 
         MainWindow mainWindow = fxmlLoader.getController();
-       //TODO mainWindow.setCourtFormData(userId);
+        mainWindow.setCourtFormData(userId);
 
         Stage stage = (Stage) newCourtButton.getScene().getWindow();
         stage.setTitle("All Courts");

@@ -1,5 +1,6 @@
 package com.example.sportoAiksteliuRezervacija.fxControllers;
 
+import com.example.sportoAiksteliuRezervacija.StartGui;
 import com.example.sportoAiksteliuRezervacija.controls.DbUtils;
 import com.example.sportoAiksteliuRezervacija.ds.Court;
 import com.example.sportoAiksteliuRezervacija.ds.Reservation;
@@ -11,14 +12,19 @@ import com.example.sportoAiksteliuRezervacija.hibernateControllers.ScheduleHibCo
 import com.example.sportoAiksteliuRezervacija.hibernateControllers.UserHibControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,8 +48,8 @@ public class ReservationWindow implements Initializable {
     @FXML
     public DatePicker cardExpirationDateField;
 
-    int courtId=1; //veli// au gausiu is paieskos lango
-    int userId=1;
+    private int courtId; //veli// au gausiu is paieskos lango
+    private int userId;
     private Connection connection;
     private Statement statement;
     private boolean check=false;
@@ -54,13 +60,25 @@ public class ReservationWindow implements Initializable {
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
     ScheduleHibControl scheduleHibControl = new ScheduleHibControl(entityManagerFactory);
 
+    public void setCourtFormData(int userId, int courtId){
+        this.userId = userId;
+        this.courtId = courtId;
+        try {
+            fillInputFieldsIfNotFirstUse();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        fillReservationDateListTable();
+        fillNameAndDescriptionFields();
+    }
+
     private void fillReservationDateListTable() {
         reservationDateList.getItems().clear();
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
         for(Schedule schedule : reservationDatesFromDb) {
             if(!schedule.getTaken()) {
-                reservationDateList.getItems().add(schedule.getStartDate() + " - " + schedule.getEndDate());
+                reservationDateList.getItems().add(schedule.getEndDate() + " - " + schedule.getStartDate());
             }
         }
     }
@@ -92,16 +110,10 @@ public class ReservationWindow implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            fillInputFieldsIfNotFirstUse();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        fillReservationDateListTable();
-        fillNameAndDescriptionFields();
+
     }
 
-    public void saveReservationAndReserve(ActionEvent actionEvent) {
+    public void saveReservationAndReserve(ActionEvent actionEvent) throws IOException {
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
         List<String> selectedIntervalDates = reservationDateList.getSelectionModel().getSelectedItems();
@@ -118,15 +130,36 @@ public class ReservationWindow implements Initializable {
         for(Schedule schedule : reservationDatesFromDb) {
             if (!schedule.getTaken()) {
                 for (String dateInterval : selectedIntervalDates) {
-                    if ((schedule.getStartDate() + " - " + schedule.getEndDate()).equals(dateInterval)) {
-
-                        scheduleHibControl.editSchedule(schedule);
+                    if ((schedule.getEndDate() + " - " + schedule.getStartDate()).equals(dateInterval)) {
                         user.setUserReservations(userReservationList);
                         userHibControl.editUser(user);
                         schedule.setTaken(true);
+                        scheduleHibControl.editSchedule(schedule);
+                        alertMsg();
+                        fillReservationDateListTable();
                     }
                 }
             }
         }
+    }
+
+    public void backToMainWIndow(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        //TODO paduoti userio id, kai bus sujungta(atkomentinti)
+        MainWindow mainWindow = fxmlLoader.getController();
+        mainWindow.setCourtFormData(userId);
+        Stage stage = (Stage) csvField.getScene().getWindow();
+        stage.setTitle("Admin");
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void alertMsg(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informacija");
+        alert.setHeaderText(null);
+        alert.setContentText("Pasirinktas laikas užrezervuotas");
+
+        alert.showAndWait();
     }
 }

@@ -88,18 +88,18 @@ public class AllUsers implements Initializable {
     }
 
     public void userClicked(MouseEvent mouseEvent) throws IOException {
-        User user = userHibControl.getUserById(Integer.parseInt(userTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("user-update.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        if (userTable.getSelectionModel().getSelectedIndex() != -1) {
+            User user = userHibControl.getUserById(Integer.parseInt(userTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
+            FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("user-update.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
 
-        UserUpdate userUpdate = fxmlLoader.getController();
-        userUpdate.setCourtFormData(user.getId(),userId);
+            UserUpdate userUpdate = fxmlLoader.getController();
+            userUpdate.setCourtFormData(user.getId(), userId);
 
-        Stage stage = (Stage) userTable.getScene().getWindow();
-        stage.setTitle("Admin");
-        stage.setScene(scene);
-        stage.show();
+            Stage stage = (Stage) userTable.getScene().getWindow();
+            stage.setTitle("Admin");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
-
-
 }

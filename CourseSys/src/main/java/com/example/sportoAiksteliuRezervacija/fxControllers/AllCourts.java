@@ -57,7 +57,7 @@ public class AllCourts implements Initializable {
     List<Court> CourtList = new ArrayList<>();
 
     public void getItemsFromDb() throws SQLException {
-        CourtList = courtHibControl.getAllCourses(true, -1, -1);
+        CourtList = courtHibControl.getAllCourts(true, -1, -1);
     }
 
     @Override
@@ -79,21 +79,20 @@ public class AllCourts implements Initializable {
     }
 
     public void courtClicked(MouseEvent mouseEvent) throws IOException {
-        Court court = courtHibControl.getCourseById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("court-update.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        if(courtTable.getSelectionModel().getSelectedIndex() != -1) {
+            Court court = courtHibControl.getCourtById(Integer.parseInt(courtTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
+            FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("court-update.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
 
-        CourtUpdate courtUpdate = fxmlLoader.getController();
-        courtUpdate.setCourtFormData(court.getId(), userId);
+            CourtUpdate courtUpdate = fxmlLoader.getController();
+            courtUpdate.setCourtFormData(court.getId(), userId);
 
 
-
-
-        Stage stage = (Stage) courtTable.getScene().getWindow();
-        stage.setTitle("Admin");
-        stage.setScene(scene);
-        stage.show();
-
+            Stage stage = (Stage) courtTable.getScene().getWindow();
+            stage.setTitle("Admin");
+            stage.setScene(scene);
+            stage.show();
+        }
 
     }
 

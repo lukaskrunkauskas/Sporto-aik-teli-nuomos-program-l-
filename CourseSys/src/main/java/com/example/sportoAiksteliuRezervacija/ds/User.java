@@ -19,6 +19,9 @@ public class User {
     @OneToMany
     private List<Schedule> reserved;
 
+    @OneToMany
+    private List<Reservation> userReservations;
+
     public User() {
     }
 
@@ -95,6 +98,14 @@ public class User {
 
     public void setReserved(List<Schedule> reserved) {
         this.reserved = reserved;
+    }
+
+    public List<Reservation> getUserReservations() {
+        return userReservations;
+    }
+
+    public void setUserReservations(List<Reservation> userReservations) {
+        this.userReservations = userReservations;
     }
 
     @Override

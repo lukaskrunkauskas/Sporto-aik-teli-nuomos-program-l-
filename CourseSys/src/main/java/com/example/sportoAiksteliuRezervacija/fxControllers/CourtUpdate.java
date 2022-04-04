@@ -57,13 +57,13 @@ public class CourtUpdate implements Initializable {
     public void setCourtFormData(int id, int userId){
         this.courtId = id;
         this.userId = userId;
-        nameField.setText(courtHibControl.getCourseById(courtId).getName());
-        addressField.setText(courtHibControl.getCourseById(courtId).getAddress());
-        costField.setText(courtHibControl.getCourseById(courtId).getCost().toString());
-        descriptionField.setText(courtHibControl.getCourseById(courtId).getDescription());
-        imageUrlField.setText(courtHibControl.getCourseById(courtId).getPictureUrl());
-        cityComboBox.getSelectionModel().select(courtHibControl.getCourseById(courtId).getCity());
-        typeComboBox.getSelectionModel().select(courtHibControl.getCourseById(courtId).getType());
+        nameField.setText(courtHibControl.getCourtById(courtId).getName());
+        addressField.setText(courtHibControl.getCourtById(courtId).getAddress());
+        costField.setText(String.valueOf(courtHibControl.getCourtById(courtId).getCost()));
+        descriptionField.setText(courtHibControl.getCourtById(courtId).getDescription());
+        imageUrlField.setText(courtHibControl.getCourtById(courtId).getPictureUrl());
+        cityComboBox.getSelectionModel().select(courtHibControl.getCourtById(courtId).getCity());
+        typeComboBox.getSelectionModel().select(courtHibControl.getCourtById(courtId).getType());
 
     }
 
@@ -89,7 +89,7 @@ public class CourtUpdate implements Initializable {
     public void submitButton(ActionEvent actionEvent) throws IOException {
         List<Schedule> EmptyList = Collections.<Schedule>emptyList();
 
-        Court court = courtHibControl.getCourseById(courtId);
+        Court court = courtHibControl.getCourtById(courtId);
         court.setAddress(addressField.getText());
         court.setName(nameField.getText());
         court.setCost(Double.parseDouble(costField.getText()));

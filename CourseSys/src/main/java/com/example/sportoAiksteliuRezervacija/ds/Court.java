@@ -37,6 +37,18 @@ public class Court{
         this.schedules = schedules;
     }
 
+    public Court(String name, String address, String description, CityType city, CourtType type, double cost, String pictureUrl, List<Schedule> schedules) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.city = city;
+        this.type = type;
+        this.cost = cost;
+        this.pictureUrl = pictureUrl;
+        this.schedules = schedules;
+    }
+
+
     public int getId() {
         return id;
     }
