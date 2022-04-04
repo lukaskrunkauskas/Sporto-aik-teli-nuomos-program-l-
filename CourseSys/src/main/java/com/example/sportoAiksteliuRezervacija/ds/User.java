@@ -15,8 +15,13 @@ public class User {
     private String email;
     private UserType userType;
     private String pictureUrl;
+    private String randomCode;
     @OneToMany
     private List<Schedule> reserved;
+
+    public void setRandomCode(String randomCode) {
+        this.randomCode = randomCode;
+    }
 
     public User() {
     }
@@ -31,11 +36,12 @@ public class User {
         this.reserved = reserved;
     }
 
-    public User(String username, String password, String email, UserType userType) {
+    public User(String username, String password, String email, UserType userType, String randomCode) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.userType = userType;
+        this.randomCode = randomCode;
     }
 
     public int getId() {
@@ -92,5 +98,9 @@ public class User {
 
     public void setReserved(List<Schedule> reserved) {
         this.reserved = reserved;
+    }
+
+    public String getRandomCode() {
+        return randomCode;
     }
 }

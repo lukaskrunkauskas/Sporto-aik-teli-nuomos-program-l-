@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Properties;
 
 public class SignupWindow {
     @FXML
@@ -34,10 +36,22 @@ public class SignupWindow {
         } else if (pswF.getText().length() < 5 && pswF.getText().length() > 15) {
             LoginWindow.alertMessage("Naudotojo slaptažodžio ilgis turi būti tarp 5 ir 15 simbolių ilgio");
         } else {
-            User user = new User(loginF.getText(), pswF.getText(), emailF.getText(), UserType.USER);
+            String generatedString = getAlphaNumericString(10);
+            User user = new User(loginF.getText(), pswF.getText(), emailF.getText(), UserType.USER, generatedString);
             userHibControl.createUser(user);
-            LoginWindow.alertMessage("User created successfully!");
-            returnToPrevious();
+            LoginWindow.alertMessage("Naudotojo paskyra sėkmingai sukurta");
+
+            FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("confirm-window.fxml"));
+            Parent root = fxmlLoader.load();
+
+            ConfirmWindow confirmWindow = fxmlLoader.getController();
+            confirmWindow.setUserFormData(user.getId());
+
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) pswF.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
         }
     }
 
@@ -54,5 +68,16 @@ public class SignupWindow {
 
     public void returnToLogin(ActionEvent actionEvent) throws IOException {
         returnToPrevious();
+    }
+
+    static String getAlphaNumericString(int n) {
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+            int index = (int)(AlphaNumericString.length() * Math.random());
+            sb.append(AlphaNumericString.charAt(index));
+        }
+        return sb.toString();
     }
 }
