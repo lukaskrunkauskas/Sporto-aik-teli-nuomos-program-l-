@@ -36,8 +36,6 @@ public class EditProfile implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        User user = userHibControl.getUserById(userId);
-        setData(userId, user);
     }
 
     public TextArea getInformation() {
@@ -48,17 +46,18 @@ public class EditProfile implements Initializable {
         this.information = information;
     }
 
-    public void setEditProfile(int userId) {
-        this.userId = userId;
-    }
-
-
     public void confirmChange(ActionEvent actionEvent) {
         user.setUsername(name.getText());
         user.setPassword(password.getText());
         user.setEmail(email.getText());
         user.setInformation(information.getText());
         userHibControl.editUser(user);
+    }
+
+    public void setEditProfile(int userId) {
+            this.userId = userId;
+            User user = userHibControl.getUserById(userId);
+            setData(userId, user);
     }
 
     public void setData(int userId, User user) {

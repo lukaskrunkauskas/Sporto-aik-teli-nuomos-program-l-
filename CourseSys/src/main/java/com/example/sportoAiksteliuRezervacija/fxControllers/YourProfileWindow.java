@@ -61,7 +61,7 @@ public class YourProfileWindow implements Initializable {
         Parent root = fxmlLoader.load();
 
         EditProfile editProfile = fxmlLoader.getController();
-        editProfile.setData(userId, user);
+        editProfile.setEditProfile(userId);
 
         Scene scene = new Scene(root);
         Stage stage = (Stage) nameField.getScene().getWindow();
