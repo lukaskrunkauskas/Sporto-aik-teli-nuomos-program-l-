@@ -148,7 +148,7 @@ public class ReservationWindow implements Initializable {
         Scene scene = new Scene(fxmlLoader.load());
         //TODO paduoti userio id, kai bus sujungta(atkomentinti)
         MainWindow mainWindow = fxmlLoader.getController();
-        mainWindow.setCourtFormData(userId);
+        mainWindow.setFormData(userId);
         Stage stage = (Stage) csvField.getScene().getWindow();
         stage.setTitle("Admin");
         stage.setScene(scene);

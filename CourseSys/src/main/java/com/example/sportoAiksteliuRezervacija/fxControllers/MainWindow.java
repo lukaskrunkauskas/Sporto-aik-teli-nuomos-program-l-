@@ -64,7 +64,7 @@ public class MainWindow implements Initializable {
     List<Court> CourtList = new ArrayList<>();
 
     //TODO pakviesti sia funkcija is kito lango(logino, registravimo, administravimo, profilio redagavimo)
-    public void setCourtFormData(int id){
+    public void setFormData(int id){
         this.userId = id;
     }
 
@@ -169,15 +169,15 @@ public class MainWindow implements Initializable {
     }
     //TODO pakeisti profile edi fxml
     public void moveToProfileEdit(ActionEvent actionEvent) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("profile-edit.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load());
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("your-profile-window.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         //TODO paduoti userio id, kai bus sujungta(atkomentinti)
-//      AdministrationWindow administrationWindow = fxmlLoader.getController();
-//      administrationWindow.setCourtFormData(userId);
-//        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
-//        stage.setTitle("Profile edit");
-//        stage.setScene(scene);
-//        stage.show();
+        YourProfileWindow yourProfileWindow = fxmlLoader.getController();
+        yourProfileWindow.setYourProfileWindow(userId);
+        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+        stage.setTitle("Profile edit");
+        stage.setScene(scene);
+        stage.show();
     }
     //TODO paduoti aiksteles ir userio id
     public void moveToCourtReservation(MouseEvent mouseEvent) throws IOException {

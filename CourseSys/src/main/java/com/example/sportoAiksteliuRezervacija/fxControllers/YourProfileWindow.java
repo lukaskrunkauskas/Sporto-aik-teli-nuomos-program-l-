@@ -28,7 +28,7 @@ public class YourProfileWindow implements Initializable {
     @FXML
     public TextField email;
     User user;
-    private int userId=1;
+    private int userId;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
@@ -36,12 +36,12 @@ public class YourProfileWindow implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        User user = userHibControl.getUserById(userId);
-        setData(userId, user);
     }
 
     public void setYourProfileWindow(int userId) {
         this.userId = userId;
+        User user = userHibControl.getUserById(userId);
+        setData(userId, user);
     }
 
     public void setData (int userId, User user) {
@@ -70,15 +70,15 @@ public class YourProfileWindow implements Initializable {
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
-//        Parent root = fxmlLoader.load();
-//
-//        MainWindow mainWindow = fxmlLoader.getController();
-//        mainWindow.setMainWindow(userId);
-//
-//        Scene scene = new Scene(root);
-//        Stage stage = (Stage) nameField.getScene().getWindow();
-//        stage.setScene(scene);
-//        stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
+        Parent root = fxmlLoader.load();
+
+        MainWindow mainWindow = fxmlLoader.getController();
+        mainWindow.setFormData(userId);
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) nameField.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }
