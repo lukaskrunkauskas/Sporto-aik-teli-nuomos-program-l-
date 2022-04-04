@@ -31,6 +31,13 @@ public class User {
         this.reserved = reserved;
     }
 
+    public User(String username, String password, String email, UserType userType) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.userType = userType;
+    }
+
     public int getId() {
         return id;
     }

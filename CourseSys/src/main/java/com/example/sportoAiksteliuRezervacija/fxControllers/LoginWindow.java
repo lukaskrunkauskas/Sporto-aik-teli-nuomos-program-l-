@@ -49,7 +49,7 @@ public class LoginWindow implements Initializable {
         }
     }
 
-    private void alertMessage(String s) {
+    static void alertMessage(String s) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");
         alert.setHeaderText("Message text:");
@@ -59,7 +59,14 @@ public class LoginWindow implements Initializable {
         alert.showAndWait();
     }
 
-    public void signUp(ActionEvent actionEvent) {
+    public void signUp(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("sign-up-window.fxml"));
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root);
+
+        Stage stage = (Stage) loginF.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
