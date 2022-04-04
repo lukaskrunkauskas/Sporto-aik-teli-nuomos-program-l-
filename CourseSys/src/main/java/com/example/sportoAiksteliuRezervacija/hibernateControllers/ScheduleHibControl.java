@@ -1,6 +1,6 @@
 package com.example.sportoAiksteliuRezervacija.hibernateControllers;
 
-import com.example.sportoAiksteliuRezervacija.ds.Court;
+import com.example.sportoAiksteliuRezervacija.ds.Schedule;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -8,9 +8,9 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
-public class CourtHibControl {
+public class ScheduleHibControl {
     private EntityManagerFactory emf = null;
-    public CourtHibControl(EntityManagerFactory emf) {
+    public ScheduleHibControl(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
@@ -18,12 +18,12 @@ public class CourtHibControl {
         return emf.createEntityManager();
     }
 
-    public void editCourt(Court court) {
+    public void editSchedule(Schedule schedule) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.merge(court);
+            em.merge(schedule);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,12 +33,12 @@ public class CourtHibControl {
             }
         }
     }
-    public void createCourt(Court court) {
+    public void createSchedule(Schedule schedule) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(court);
+            em.persist(schedule);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,15 +48,15 @@ public class CourtHibControl {
             }
         }
     }
-    public List<Court> getAllCourts() {
-        return getAllCourts(false, -1, -1);
+    public List<Schedule> getAllSchedules() {
+        return getAllSchedules(false, -1, -1);
     }
 
-    public List<Court> getAllCourts(boolean all, int resMax, int resFirst) {
+    public List<Schedule> getAllSchedules(boolean all, int resMax, int resFirst) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery query = em.getCriteriaBuilder().createQuery();
-            query.select(query.from(Court.class));
+            query.select(query.from(Schedule.class));
             Query q = em.createQuery(query);
 
             if (!all) {
@@ -74,18 +74,18 @@ public class CourtHibControl {
         }
         return null;
     }
-    public Court getCourtById(int id) {
+    public Schedule getScheduleById(int id) {
         EntityManager em = null;
-        Court course = null;
+        Schedule schedule = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            course = em.getReference(Court.class, id);
-            course.getId();
+            schedule = em.getReference(Schedule.class, id);
+            schedule.getId();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("No such court by given Id");
+            System.out.println("No such schedule by given Id");
         }
-        return course;
+        return schedule;
     }
 }
