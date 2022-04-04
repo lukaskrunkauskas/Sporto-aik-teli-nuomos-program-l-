@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @Entity
-public class Court {
+public class Court{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -17,7 +17,7 @@ public class Court {
     private String description;
     private CityType city;
     private CourtType type;
-    private Double cost;
+    private double cost;
     private String pictureUrl;
     @OneToMany
     private List<Schedule> schedules;
@@ -25,18 +25,7 @@ public class Court {
     public Court() {
     }
 
-    public Court(String name, String address, String description, CityType city, CourtType type, Double cost, String pictureUrl, List<Schedule> schedules) {
-        this.name = name;
-        this.address = address;
-        this.description = description;
-        this.city = city;
-        this.type = type;
-        this.cost = cost;
-        this.pictureUrl = pictureUrl;
-        this.schedules = schedules;
-    }
-
-    public Court(int id, String name, String address, String description, CityType city, CourtType type, Double cost, String pictureUrl, List<Schedule> schedules) {
+    public Court(int id, String name, String address, String description, CityType city, CourtType type, double cost, String pictureUrl, List<Schedule> schedules) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -96,6 +85,14 @@ public class Court {
         this.type = type;
     }
 
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
     public List<Schedule> getSchedules() {
         return schedules;
     }
@@ -110,14 +107,6 @@ public class Court {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
-    }
-
-    public Double getCost() {
-        return cost;
-    }
-
-    public void setCost(Double cost) {
-        this.cost = cost;
     }
 
     @Override
