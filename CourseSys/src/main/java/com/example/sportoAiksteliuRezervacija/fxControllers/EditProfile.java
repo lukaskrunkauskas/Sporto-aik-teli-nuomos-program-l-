@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,6 +19,8 @@ import javax.persistence.Persistence;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditProfile implements Initializable {
     @FXML
@@ -47,11 +50,19 @@ public class EditProfile implements Initializable {
     }
 
     public void confirmChange(ActionEvent actionEvent) {
-        user.setUsername(name.getText());
-        user.setPassword(password.getText());
-        user.setEmail(email.getText());
+
         user.setInformation(information.getText());
-        userHibControl.editUser(user);
+
+        if (!checkIfValid(name.getText()) || !isValidPassword(password.getText()) || !isValidEmail(email.getText())) {
+            alertMsg();
+        }
+        else {
+            user.setUsername(name.getText());
+            user.setPassword(password.getText());
+            user.setEmail(email.getText());
+            userHibControl.editUser(user);
+            successAlert();
+        }
     }
 
     public void setEditProfile(int userId) {
@@ -79,5 +90,59 @@ public class EditProfile implements Initializable {
         Stage stage = (Stage) name.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public boolean checkIfValid(String fieldValue) {
+        return fieldValue.length() > 0 && fieldValue.length() < 15;
+    }
+
+    public static boolean isValidPassword(String password)
+    {
+
+        String regex = "^(?=.*[0-9])"
+                + "(?=.*[a-z])(?=.*[A-Z])"
+                + "(?=.*[@#$%^&+=])"
+                + "(?=\\S+$).{8,20}$";
+
+        Pattern p = Pattern.compile(regex);
+
+        if (password == null) {
+            return false;
+        }
+
+        Matcher m = p.matcher(password);
+
+        return m.matches();
+    }
+
+    public static boolean isValidEmail(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
+    public void alertMsg() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Klaida!");
+        alert.setHeaderText(null);
+        alert.setContentText("Klaidingai įvesti duomenys");
+
+        alert.showAndWait();
+    }
+
+    public void successAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Klaida!");
+        alert.setHeaderText(null);
+        alert.setContentText("Duomenys sėkmingai pakeisti");
+
+        alert.showAndWait();
     }
 }
