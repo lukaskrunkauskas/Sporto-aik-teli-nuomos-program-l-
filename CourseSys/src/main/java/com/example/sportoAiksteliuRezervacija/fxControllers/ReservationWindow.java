@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ReservationWindow implements Initializable {
@@ -72,18 +73,18 @@ public class ReservationWindow implements Initializable {
         fillNameAndDescriptionFields();
     }
 
-    private void fillReservationDateListTable() {
+    public void fillReservationDateListTable() {
         reservationDateList.getItems().clear();
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
         for (Schedule schedule : reservationDatesFromDb) {
             if (!schedule.getTaken()) {
-                reservationDateList.getItems().add(schedule.getEndDate() + " - " + schedule.getStartDate());
+                reservationDateList.getItems().add(joinDates(schedule.getEndDate(), schedule.getStartDate()));
             }
         }
     }
 
-    private void fillNameAndDescriptionFields() {
+     private void fillNameAndDescriptionFields() {
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         courtNameField.setText(selectedCourt.getName());
         courtDescriptionField.setText(selectedCourt.getDescription());
@@ -130,7 +131,7 @@ public class ReservationWindow implements Initializable {
         for (Schedule schedule : reservationDatesFromDb) {
             if (!schedule.getTaken()) {
                 for (String dateInterval : selectedIntervalDates) {
-                    if ((schedule.getEndDate() + " - " + schedule.getStartDate()).equals(dateInterval)) {
+                    if ((joinDates(schedule.getEndDate(), schedule.getStartDate())).equals(dateInterval)) {
                         user.setUserReservations(userReservationList);
                         userHibControl.editUser(user);
                         schedule.setTaken(true);
@@ -162,5 +163,9 @@ public class ReservationWindow implements Initializable {
         alert.setContentText("Pasirinktas laikas užrezervuotas");
 
         alert.showAndWait();
+    }
+
+    public String joinDates(LocalDateTime firstDate, LocalDateTime secondDate) {
+        return firstDate + " - " + secondDate;
     }
 }
