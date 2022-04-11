@@ -35,4 +35,10 @@ public class ReservationWindowTest {
 
         assertEquals(reservationWindow.joinDates(date, date), date + " - " + date);
     }
+
+    @Test
+    void validateAccountNumber() {
+        String accountNumber = "1234567890123456";
+        assertEquals(reservationWindow.validateAccountNumber("1234567890123456"), )
+    }
 }
