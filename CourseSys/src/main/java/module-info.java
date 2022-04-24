@@ -1,7 +1,7 @@
 module com.example.coursesys {
     requires javafx.controls;
     requires javafx.fxml;
-    requires mysql.connector.java;
+    //requires mysql.connector.java;
     requires java.persistence;
     requires org.hibernate.orm.core;
     requires java.sql;
