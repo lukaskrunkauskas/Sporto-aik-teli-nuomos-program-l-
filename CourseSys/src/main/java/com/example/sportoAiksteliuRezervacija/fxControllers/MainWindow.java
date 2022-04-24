@@ -110,7 +110,7 @@ public class MainWindow implements Initializable {
 
     }
 
-    public void filterByCity(ActionEvent actionEvent) {
+    public void filterByCity() {
         courtTable.getItems().clear();
         for (Court court : CourtList) {
             if (court.getCity().toString().equals(cityComboBox.getSelectionModel().getSelectedItem().toString())) {
@@ -120,6 +120,17 @@ public class MainWindow implements Initializable {
             }
         }
         courtTable.setItems(observableList);
+    }
+
+    public ObservableList<Court> filterByCityForTest(List<Court> courtList, String cityComboBox){
+        for (Court court : courtList) {
+            if (court.getCity().toString().equals(cityComboBox)) {
+                observableList.add(court);
+            } else if (cityComboBox.equals("VISI")) {
+                observableList.add(court);
+            }
+        }
+        return observableList;
     }
 
     public void filterByType(ActionEvent actionEvent) {
