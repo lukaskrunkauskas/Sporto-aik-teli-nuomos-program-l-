@@ -91,9 +91,22 @@ public class NewCourt implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Klaida!");
         alert.setHeaderText(null);
-        alert.setContentText("Neužpildėte visų laukų");
+        alert.setContentText("Neužpildėte visų laukų/netaisyklingai užpildėte");
 
         alert.showAndWait();
+    }
+
+    public boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+            if(d <=0 ) return false;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
     public boolean checkIfEmpty(String fieldValue) {
@@ -101,8 +114,9 @@ public class NewCourt implements Initializable {
         return false;
     }
 
+
     public void submitButton(ActionEvent actionEvent) throws IOException {
-        if (checkIfEmpty(nameField.getText()) == true || checkIfEmpty(addressField.getText()) == true || checkIfEmpty(descriptionField.getText()) == true || cityComboBox.getSelectionModel().getSelectedIndex() == -1 || typeComboBox.getSelectionModel().getSelectedIndex() == -1 || checkIfEmpty(imageUrlField.getText()) == true || costField.getText() == "")
+        if (checkIfEmpty(nameField.getText()) == true || checkIfEmpty(addressField.getText()) == true || checkIfEmpty(descriptionField.getText()) == true || cityComboBox.getSelectionModel().getSelectedIndex() == -1 || typeComboBox.getSelectionModel().getSelectedIndex() == -1 || checkIfEmpty(imageUrlField.getText()) == true || isNumeric(costField.getText()) == false)
             alertMsg();
         else {
             List<Schedule> EmptyList = Collections.<Schedule>emptyList();
