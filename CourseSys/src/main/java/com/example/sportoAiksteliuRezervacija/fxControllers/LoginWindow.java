@@ -31,6 +31,7 @@ public class LoginWindow implements Initializable {
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
 
     public void signIn(ActionEvent actionEvent) throws IOException {
+        //boolean Login = isUser(loginF.getText(), pswF.getText());
         User user = userHibControl.getUserByLoginData(loginF.getText(), pswF.getText());
         if (user != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
@@ -49,6 +50,11 @@ public class LoginWindow implements Initializable {
             alertMessage("Wrong input data, no such user found!");
         }
     }
+
+//    public static boolean isUser(String name, String psw) {
+//        User user = userHibControl.getUserByLoginData(name, psw);
+//        return user != null;
+//    }
 
     static void alertMessage(String s) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
