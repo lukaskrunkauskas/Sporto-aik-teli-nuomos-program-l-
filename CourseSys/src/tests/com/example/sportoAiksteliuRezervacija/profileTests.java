@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class profileTests {
 
+
     @Mock
     EditProfile editProfile = new EditProfile();
 
@@ -60,3 +61,4 @@ public class profileTests {
         assertFalse(editProfile.checkIfValid(name));
     }
 }
+

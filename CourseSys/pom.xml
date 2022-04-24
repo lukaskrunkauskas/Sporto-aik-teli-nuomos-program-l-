@@ -16,12 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.8.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17-ea+11</version>
