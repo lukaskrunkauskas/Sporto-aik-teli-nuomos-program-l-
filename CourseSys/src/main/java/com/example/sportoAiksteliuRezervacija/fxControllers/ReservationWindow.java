@@ -30,7 +30,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReservationWindow implements Initializable {
     @FXML
@@ -72,18 +75,18 @@ public class ReservationWindow implements Initializable {
         fillNameAndDescriptionFields();
     }
 
-    private void fillReservationDateListTable() {
+    public void fillReservationDateListTable() {
         reservationDateList.getItems().clear();
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
         for (Schedule schedule : reservationDatesFromDb) {
             if (!schedule.getTaken()) {
-                reservationDateList.getItems().add(schedule.getEndDate() + " - " + schedule.getStartDate());
+                reservationDateList.getItems().add(joinDates(schedule.getEndDate(), schedule.getStartDate()));
             }
         }
     }
 
-    private void fillNameAndDescriptionFields() {
+     private void fillNameAndDescriptionFields() {
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         courtNameField.setText(selectedCourt.getName());
         courtDescriptionField.setText(selectedCourt.getDescription());
@@ -120,23 +123,25 @@ public class ReservationWindow implements Initializable {
         List<Reservation> userReservationList = new ArrayList<>();
         User user = userHibControl.getUserById(userId);
 
-        Reservation reservation = new Reservation(nameAndSurnameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
-        if (!check) {
-            reservationHibControl.createReservation(reservation);
-        }
-        userReservationList.add(reservation);
+        if(validateAccountNumber(bankAccountField.getText())) {
+            Reservation reservation = new Reservation(nameAndSurnameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
+            if (!check) {
+                reservationHibControl.createReservation(reservation);
+            }
+            userReservationList.add(reservation);
 
 
-        for (Schedule schedule : reservationDatesFromDb) {
-            if (!schedule.getTaken()) {
-                for (String dateInterval : selectedIntervalDates) {
-                    if ((schedule.getEndDate() + " - " + schedule.getStartDate()).equals(dateInterval)) {
-                        user.setUserReservations(userReservationList);
-                        userHibControl.editUser(user);
-                        schedule.setTaken(true);
-                        scheduleHibControl.editSchedule(schedule);
-                        alertMsg();
-                        fillReservationDateListTable();
+            for (Schedule schedule : reservationDatesFromDb) {
+                if (!schedule.getTaken()) {
+                    for (String dateInterval : selectedIntervalDates) {
+                        if ((joinDates(schedule.getEndDate(), schedule.getStartDate())).equals(dateInterval)) {
+                            user.setUserReservations(userReservationList);
+                            userHibControl.editUser(user);
+                            schedule.setTaken(true);
+                            scheduleHibControl.editSchedule(schedule);
+                            alertMsg();
+                            fillReservationDateListTable();
+                        }
                     }
                 }
             }
@@ -162,5 +167,27 @@ public class ReservationWindow implements Initializable {
         alert.setContentText("Pasirinktas laikas užrezervuotas");
 
         alert.showAndWait();
+    }
+
+    public void validationAlert() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Informacija");
+        alert.setHeaderText(null);
+        alert.setContentText("Neteisingai ivesti duomenys");
+
+        alert.showAndWait();
+    }
+    public String joinDates(LocalDateTime firstDate, LocalDateTime secondDate) {
+        return firstDate + " - " + secondDate;
+    }
+
+    public boolean validateAccountNumber(String accountNumber) {
+        Pattern pattern  = Pattern.compile("\\b\\d{4}(| |-)\\d{4}\\1\\d{4}\\1\\d{4}\\b");
+        Matcher matcher = pattern.matcher(accountNumber);
+        if(!matcher.find()) {
+            validationAlert();
+            return false;
+        }
+        return true;
     }
 }
