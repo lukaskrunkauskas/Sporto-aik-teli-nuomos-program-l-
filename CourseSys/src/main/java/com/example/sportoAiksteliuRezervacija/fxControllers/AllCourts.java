@@ -6,7 +6,7 @@ import com.example.sportoAiksteliuRezervacija.ds.Court;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CityType;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CourtType;
 import com.example.sportoAiksteliuRezervacija.hibernateControllers.CourtHibControl;
-import com.mysql.cj.xdevapi.Type;
+//import com.mysql.cj.xdevapi.Type;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
