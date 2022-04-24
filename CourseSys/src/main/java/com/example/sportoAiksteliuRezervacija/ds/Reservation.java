@@ -21,8 +21,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(int id, String cardHolder, int cardNumber, int cardCvc, LocalDate cardExpiration, Court court) {
-        this.id = id;
+    public Reservation(String cardHolder, int cardNumber, int cardCvc, LocalDate cardExpiration, Court court) {
         this.cardHolder = cardHolder;
         this.cardNumber = cardNumber;
         this.cardCvc = cardCvc;

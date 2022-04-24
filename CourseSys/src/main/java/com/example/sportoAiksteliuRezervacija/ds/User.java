@@ -13,22 +13,36 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String information;
     private UserType userType;
     private String pictureUrl;
+    private String randomCode;
     @OneToMany
     private List<Schedule> reserved;
+
+    @OneToMany
+    private List<Reservation> userReservations;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String email, UserType userType, String pictureUrl, List<Schedule> reserved) {
+    public User(int id, String username, String password, String email, String information, UserType userType, String pictureUrl, List<Schedule> reserved) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.information = information;
         this.userType = userType;
         this.pictureUrl = pictureUrl;
         this.reserved = reserved;
+    }
+
+    public User(String username, String password, String email, UserType userType, String randomCode) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.randomCode = randomCode;
+        this.userType = userType;
     }
 
     public int getId() {
@@ -63,6 +77,14 @@ public class User {
         this.email = email;
     }
 
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
     public UserType getUserType() {
         return userType;
     }
@@ -85,5 +107,26 @@ public class User {
 
     public void setReserved(List<Schedule> reserved) {
         this.reserved = reserved;
+    }
+
+    public List<Reservation> getUserReservations() {
+        return userReservations;
+    }
+
+    public void setUserReservations(List<Reservation> userReservations) {
+        this.userReservations = userReservations;
+    }
+
+    public String getRandomCode() {
+        return randomCode;
+    }
+
+    public void setRandomCode(String randomCode) {
+        this.randomCode = randomCode;
+    }
+
+    @Override
+    public String toString() {
+        return id +":";
     }
 }

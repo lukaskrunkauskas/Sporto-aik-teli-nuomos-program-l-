@@ -48,11 +48,11 @@ public class CourtHibControl {
             }
         }
     }
-    public List<Court> getAllCourses() {
-        return getAllCourses(false, -1, -1);
+    public List<Court> getAllCourts() {
+        return getAllCourts(false, -1, -1);
     }
 
-    public List<Court> getAllCourses(boolean all, int resMax, int resFirst) {
+    public List<Court> getAllCourts(boolean all, int resMax, int resFirst) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery query = em.getCriteriaBuilder().createQuery();
@@ -74,7 +74,7 @@ public class CourtHibControl {
         }
         return null;
     }
-    public Court getCourseById(int id) {
+    public Court getCourtById(int id) {
         EntityManager em = null;
         Court course = null;
         try {
@@ -84,7 +84,7 @@ public class CourtHibControl {
             course.getId();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("No such course by given Id");
+            System.out.println("No such court by given Id");
         }
         return course;
     }
