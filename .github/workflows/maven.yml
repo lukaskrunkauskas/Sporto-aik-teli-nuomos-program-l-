@@ -38,4 +38,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Tests with Maven
-      run: mvn -Dtest="CourseSys\src\test\com\example\sportoAiksteliuRezervacija\**" test
+      run: mvn -B test --file CourseSys/pom.xml
