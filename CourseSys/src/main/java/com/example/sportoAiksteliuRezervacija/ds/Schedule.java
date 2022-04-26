@@ -25,6 +25,12 @@ public class Schedule {
         this.isTaken = isTaken;
     }
 
+    public Schedule(LocalDateTime startDate, LocalDateTime endDate, Boolean isTaken) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isTaken = isTaken;
+    }
+
     public int getId() {
         return id;
     }

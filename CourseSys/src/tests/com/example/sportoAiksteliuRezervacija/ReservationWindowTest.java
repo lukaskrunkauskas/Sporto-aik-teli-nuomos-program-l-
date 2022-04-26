@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReservationWindowTest {
 
@@ -36,6 +37,6 @@ public class ReservationWindowTest {
     @Test
     void validateAccountNumber() {
         String accountNumber = "1234567890123456";
-        //  assertEquals(reservationWindow.validateAccountNumber("1234567890123456"), )
+          assertTrue(reservationWindow.validateAccountNumber("1234567890123456"));
     }
 }
