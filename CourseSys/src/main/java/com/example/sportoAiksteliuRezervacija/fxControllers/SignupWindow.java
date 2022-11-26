@@ -27,6 +27,8 @@ public class SignupWindow {
     @FXML
     public TextField emailF;
 
+    // test commit
+
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
 
