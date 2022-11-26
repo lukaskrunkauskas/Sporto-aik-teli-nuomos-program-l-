@@ -14,6 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
@@ -24,9 +27,6 @@ import javafx.stage.Stage;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -37,9 +37,9 @@ import java.util.regex.Pattern;
 
 public class ReservationWindow implements Initializable {
     @FXML
-    public ListView reservationDateList;
+    public ListView ReservationDateList;
     @FXML
-    public Text courtNameField;
+    public Text CourtNameField;
     @FXML
     public TextField courtDescriptionField;
     @FXML
@@ -51,8 +51,16 @@ public class ReservationWindow implements Initializable {
     @FXML
     public DatePicker cardExpirationDateField;
 
-    private int courtId; //veli// au gausiu is paieskos lango
-    private int userId;
+    @FXML
+    public String inputField;
+
+
+
+
+
+    private int courtId;
+
+    private int user_id;
     private Connection connection;
     private Statement statement;
     private boolean check = false;
@@ -64,38 +72,42 @@ public class ReservationWindow implements Initializable {
     ScheduleHibControl scheduleHibControl = new ScheduleHibControl(entityManagerFactory);
 
     public void setCourtFormData(int userId, int courtId) {
-        this.userId = userId;
+        this.user_id = userId;
         this.courtId = courtId;
         try {
             fillInputFieldsIfNotFirstUse();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        fillReservationDateListTable();
+
+        FillReservationDateListTable();
         fillNameAndDescriptionFields();
     }
 
-    public void fillReservationDateListTable() {
-        reservationDateList.getItems().clear();
+
+    public void FillReservationDateListTable() {
+        ReservationDateList.getItems().clear();
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
-        for (Schedule schedule : reservationDatesFromDb) {
-            if (!schedule.getTaken()) {
-                reservationDateList.getItems().add(joinDates(schedule.getEndDate(), schedule.getStartDate()));
-            }
-        }
-    }
+        for(Schedule schedule : reservationDatesFromDb) {
+            if(schedule.getTaken() == false) {
+                ReservationDateList.getItems().add(joinDates(schedule.getEndDate(), schedule.getStartDate()));
+            }}}
+
+
 
      private void fillNameAndDescriptionFields() {
+        //nepamirsti
         Court selectedCourt = courtHibControl.getCourtById(courtId);
-        courtNameField.setText(selectedCourt.getName());
+        CourtNameField.setText(selectedCourt.getName());
+        courtDescriptionField.setText("testing");
         courtDescriptionField.setText(selectedCourt.getDescription());
     }
 
     private void fillInputFieldsIfNotFirstUse() throws SQLException {
         connection = DbUtils.connectToDb();
         statement = connection.createStatement();
-        String query = "SELECT userReservations_id FROM User_Reservation WHERE User_id = '" + userId + "'";
+        String query = "SELECT userReservations_id FROM User_Reservation WHERE User_id = '" + user_id + "'";
         ResultSet rs = statement.executeQuery(query);
         int id = 0;
         while (rs.next()) {
@@ -103,7 +115,7 @@ public class ReservationWindow implements Initializable {
         }
         DbUtils.disconnectFromDb(connection, statement);
         check = id != 0;
-        if (check) {
+        if(check) {
             Reservation reservation = reservationHibControl.getReservationById(id);
             nameAndSurnameField.setText(String.valueOf(reservation.getCardHolder()));
             bankAccountField.setText(String.valueOf(reservation.getCardNumber()));
@@ -119,9 +131,9 @@ public class ReservationWindow implements Initializable {
     public void saveReservationAndReserve(ActionEvent actionEvent) throws IOException {
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         List<Schedule> reservationDatesFromDb = selectedCourt.getSchedules();
-        List<String> selectedIntervalDates = reservationDateList.getSelectionModel().getSelectedItems();
+        List<String> selectedIntervalDates = ReservationDateList.getSelectionModel().getSelectedItems();
         List<Reservation> userReservationList = new ArrayList<>();
-        User user = userHibControl.getUserById(userId);
+        User user = userHibControl.getUserById(user_id);
 
         if(validateAccountNumber(bankAccountField.getText())) {
             Reservation reservation = new Reservation(nameAndSurnameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
@@ -140,20 +152,17 @@ public class ReservationWindow implements Initializable {
                             schedule.setTaken(true);
                             scheduleHibControl.editSchedule(schedule);
                             alertMsg();
-                            fillReservationDateListTable();
+                            FillReservationDateListTable();
                         }
-                    }
-                }
-            }
-        }
-    }
+                    }}
+            }}}
 
     public void backToMainWIndow(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         //TODO paduoti userio id, kai bus sujungta(atkomentinti)
         MainWindow mainWindow = fxmlLoader.getController();
-        mainWindow.setFormData(userId);
+        mainWindow.setFormData(user_id);
         Stage stage = (Stage) csvField.getScene().getWindow();
         stage.setTitle("Aikštelių rezervacijos sistema");
         stage.setScene(scene);
@@ -164,6 +173,7 @@ public class ReservationWindow implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Informacija");
         alert.setHeaderText(null);
+        alert.setContentText("laikas rezervuotas");
         alert.setContentText("Pasirinktas laikas užrezervuotas");
 
         alert.showAndWait();
@@ -178,7 +188,8 @@ public class ReservationWindow implements Initializable {
         alert.showAndWait();
     }
     public String joinDates(LocalDateTime firstDate, LocalDateTime secondDate) {
-        return firstDate + " - " + secondDate;
+        String text = firstDate + " - " + secondDate;
+        return text;
     }
 
     public boolean validateAccountNumber(String accountNumber) {
