@@ -18,47 +18,58 @@ import javax.persistence.Persistence;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.random.*;
 
-public class SignupWindow {
+public class SignupWindow
+{
     @FXML
     public TextField loginF;
     @FXML
     public PasswordField pswF;
+
     @FXML
     public TextField emailF;
-
-    // test commit
+    public TextField nameAndSurnameF;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
+
+
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
 
     public void createUser(ActionEvent actionEvent) throws IOException {
         if (loginF.getText().length() > 10) {
-            LoginWindow.alertMessage("Naudotojo slapyvardis turi būti ne ilgesnis nei 10 simbolių ilgio");
-        } else if (pswF.getText().length() < 5 && pswF.getText().length() > 15) {
+            LoginWindow.alertMessage("Naudotojo slapyvardis turi būti ne ilgesnis nei ");
+             LoginWindow.alertMessage("10 simbolių ilgio");
+        }
+        else if (pswF.getText().length() < 5 && pswF.getText().length() > 15) {
+
+
             LoginWindow.alertMessage("Naudotojo slaptažodžio ilgis turi būti tarp 5 ir 15 simbolių ilgio");
-        } else {
+        }
+        else
+        {
+
             String generatedString = getAlphaNumericString(10);
             User user = new User(loginF.getText(), pswF.getText(), emailF.getText(), UserType.USER, generatedString);
             userHibControl.createUser(user);
             LoginWindow.alertMessage("Naudotojo paskyra sėkmingai sukurta");
 
-            FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("confirm-window.fxml"));
+            FXMLLoader  fxmlLoader = new FXMLLoader(StartGui.class.getResource("confirm-window.fxml"));
             Parent root = fxmlLoader.load();
 
             ConfirmWindow confirmWindow = fxmlLoader.getController();
             confirmWindow.setUserFormData(user.getId());
 
-            Scene scene = new Scene(root);
+            Scene scene = new  Scene(root);
 
-            Stage stage = (Stage) pswF.getScene().getWindow();
+            Stage stage =   (Stage) pswF.getScene().getWindow();
             stage.setScene(scene);
-            stage.show();
+                stage.show();
         }
     }
 
     private void returnToPrevious() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("login-window.fxml"));
+        FXMLLoader fxmlLoader =   new FXMLLoader(StartGui.class.getResource("login-window.fxml"));
         Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root);
@@ -69,7 +80,9 @@ public class SignupWindow {
     }
 
     public void returnToLogin(ActionEvent actionEvent) throws IOException {
-        returnToPrevious();
+            returnToPrevious();
+
+
     }
 
     static String getAlphaNumericString(int n) {
