@@ -51,7 +51,8 @@ public class SignupWindow {
             stage.show();
         } else {
             LoginWindow.alertMessage("Naudotojo slaptažodis turi būti nuo 8 iki 20 simbolių ilgio. \n" +
-                    "Slaptažodis turi turėti bent vieną mažąja raidę, didžiąja raidę, skaičių bei specialų simbolį.");
+                    "Slaptažodis turi turėti bent vieną mažąja raidę, didžiąja raidę, skaičių bei specialų simbolį \n" +
+                    "(@#$%^&+=)");
         }
     }
 
