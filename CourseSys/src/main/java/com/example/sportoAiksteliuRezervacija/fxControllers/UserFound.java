@@ -28,28 +28,25 @@ public class UserFound implements Initializable {
     @FXML
     //public ImageView clientPicture;
 
-    private int id;
+    private int userId;
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
 
-    public void setFormData(int id) {
-        this.id = id;
-    }
-
-    public UserFound() {
-        this.clientUsername.setText(userHibControl.getUserById(id).getUsername());
-        this.clientEmail.setText(userHibControl.getUserById(id).getEmail());
-        this.clientBio.setText(userHibControl.getUserById(id).getInformation());
-        //this.clientPicture = clientPicture;
+    public void setFormData(int userId, int pickedUserId) {
+        this.userId = userId;
+        this.clientUsername.setText(userHibControl.getUserById(pickedUserId).getUsername());
+        this.clientEmail.setText(userHibControl.getUserById(pickedUserId).getEmail());
+        this.clientBio.setText(userHibControl.getUserById(pickedUserId).getInformation());
+//        this.clientPicture = clientPicture;
     }
 
     public void goBack(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("main-window.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("profile-search-window.fxml"));
         Parent root = fxmlLoader.load();
-
         Scene scene = new Scene(root);
-
+        ProfileSearchWindow profileSearchWindow = fxmlLoader.getController();
+        profileSearchWindow.setProfileSearchFormData(userId);
         Stage stage = (Stage) clientUsername.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
