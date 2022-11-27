@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.ProfileSearchWindow">
+   <children>
+      <TableView fx:id="userTable" layoutX="15.0" layoutY="14.0" onMouseClicked="#viewProfile" prefHeight="361.0" prefWidth="333.0">
+         <columns>
+            <TableColumn fx:id="usernameColumn" prefWidth="332.0" text="Vartotojo vardas" />
+         </columns>
+      </TableView>
+      <TextField fx:id="usernameField" layoutX="402.0" layoutY="157.0" />
+      <Text layoutX="415.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Įveskite vartotojo vardą" />
+      <Button layoutX="451.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchUsers" text="Ieškoti" />
+      <Button fx:id="backButton" layoutX="542.0" layoutY="350.0" mnemonicParsing="false" onAction="#backButton" text="Grįžti" />
+   </children>
+</AnchorPane>

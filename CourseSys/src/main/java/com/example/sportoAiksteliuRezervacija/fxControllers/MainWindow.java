@@ -208,4 +208,15 @@ public class MainWindow implements Initializable {
             stage.show();
         }
     }
+
+    public void moveToProfileSearch(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("profile-search-window.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        ProfileSearchWindow profileSearchWindow = fxmlLoader.getController();
+        profileSearchWindow.setProfileSearchFormData(userId);
+        Stage stage = (Stage) systemAdministrationButton.getScene().getWindow();
+        stage.setTitle("Profilių paieška");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
