@@ -6,6 +6,7 @@ import com.example.sportoAiksteliuRezervacija.ds.Schedule;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CityType;
 import com.example.sportoAiksteliuRezervacija.ds.enums.CourtType;
 import com.example.sportoAiksteliuRezervacija.hibernateControllers.CourtHibControl;
+import com.example.sportoAiksteliuRezervacija.hibernateControllers.ScheduleHibControl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,10 +25,8 @@ import javax.persistence.Persistence;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class NewCourt implements Initializable {
 
@@ -48,8 +47,6 @@ public class NewCourt implements Initializable {
     @FXML
     public TextField addressField;
     @FXML
-    public ImageView imageView;
-    @FXML
     public ImageView imageViewField;
     @FXML
     public TextField imageUrlField;
@@ -57,6 +54,7 @@ public class NewCourt implements Initializable {
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     CourtHibControl courtHibControl = new CourtHibControl(entityManagerFactory);
     ObservableList<String> observableListComboType = FXCollections.observableArrayList();
+    ScheduleHibControl scheduleHibControl = new ScheduleHibControl(entityManagerFactory);
     ObservableList<String> observableListComboCity = FXCollections.observableArrayList();
 
     private int userId;
@@ -113,14 +111,25 @@ public class NewCourt implements Initializable {
         if (fieldValue.length() == 0) return true;
         return false;
     }
+    private LocalDateTime getDateTime(int i, int j) {
+        LocalDateTime localDate = LocalDateTime.now();
+        return localDate.plusDays(1+j).withHour(i).withMinute(0).withSecond(0).withNano(0);
 
+    }
 
     public void submitButton(ActionEvent actionEvent) throws IOException {
         if (checkIfEmpty(nameField.getText()) == true || checkIfEmpty(addressField.getText()) == true || checkIfEmpty(descriptionField.getText()) == true || cityComboBox.getSelectionModel().getSelectedIndex() == -1 || typeComboBox.getSelectionModel().getSelectedIndex() == -1 || checkIfEmpty(imageUrlField.getText()) == true || isNumeric(costField.getText()) == false)
             alertMsg();
         else {
-            List<Schedule> EmptyList = Collections.<Schedule>emptyList();
-            Court court = new Court(nameField.getText(), addressField.getText(), descriptionField.getText(), CityType.valueOf(cityComboBox.getSelectionModel().getSelectedItem().toString()), CourtType.valueOf(typeComboBox.getSelectionModel().getSelectedItem().toString()), Double.parseDouble(costField.getText()), imageUrlField.getText(), EmptyList);
+            List<Schedule> schedules = new ArrayList<>();
+            for (int j = 0; j < 8; j++) {
+                for (int i = 8; i < 17; i++) {
+                    Schedule schedule = new Schedule(getDateTime(i + 1, j), getDateTime(i,j), false);
+                    scheduleHibControl.createSchedule(schedule);
+                    schedules.add(schedule);
+                }
+            }
+            Court court = new Court(nameField.getText(), addressField.getText(), descriptionField.getText(), CityType.valueOf(cityComboBox.getSelectionModel().getSelectedItem().toString()), CourtType.valueOf(typeComboBox.getSelectionModel().getSelectedItem().toString()), Double.parseDouble(costField.getText()), imageUrlField.getText(), schedules);
             courtHibControl.createCourt(court);
             backButton();
         }
@@ -146,23 +155,16 @@ public class NewCourt implements Initializable {
         observableListComboType.add("MANIEZAS");
         typeComboBox.setItems(observableListComboType);
 
+
     }
 
-    //TODO-------------------------NUOTRAUKOS IKELIMAS -----------------------
     public void imageView(MouseEvent mouseEvent) throws IOException {
-
-
-//        URL url = new URL(imageUrlField.getText());
-//        Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//        imageView.setImageBitmap(bitmap)
+        Image image = new Image(imageUrlField.getText());
+        imageViewField.setImage(image);
     }
 
     public void uploadButton(ActionEvent actionEvent) {
-//        File file = new File(imageUrlField.getText());
-//        Image image = new Image(file.toURI().toString());
-//        imageView = new ImageView(image);
-//        imageView.setImage(image);
-//        Image image = new Image(getClass().getResourceAsStream("s.png"));
-//        imageView.setImage(image);
+        Image image = new Image(imageUrlField.getText());
+        imageViewField.setImage(image);
     }
 }

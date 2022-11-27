@@ -39,8 +39,10 @@ public class UserFound implements Initializable {
         this.clientUsername.setText(userHibControl.getUserById(pickedUserId).getUsername());
         this.clientEmail.setText(userHibControl.getUserById(pickedUserId).getEmail());
         this.clientBio.setText(userHibControl.getUserById(pickedUserId).getInformation());
-        Image image = new Image(userHibControl.getUserById(pickedUserId).getPictureUrl());
-        this.clientPicture.setImage(image);
+        if(userHibControl.getUserById(pickedUserId).getPictureUrl() != null) {
+            Image image = new Image(userHibControl.getUserById(pickedUserId).getPictureUrl());
+            this.clientPicture.setImage(image);
+        }
     }
 
     public void goBack(ActionEvent actionEvent) throws IOException {

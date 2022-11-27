@@ -11,6 +11,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import javax.persistence.EntityManagerFactory;
@@ -27,6 +29,8 @@ public class YourProfileWindow implements Initializable {
     public TextArea information;
     @FXML
     public TextField email;
+    @FXML
+    public ImageView imageView;
     User user;
     private int userId;
 
@@ -47,6 +51,10 @@ public class YourProfileWindow implements Initializable {
     public void setData(int userId, User user) {
         this.userId = userId;
         this.user = user;
+        if(userHibControl.getUserById(userId).getPictureUrl() != null) {
+            Image image = new Image(userHibControl.getUserById(userId).getPictureUrl());
+            imageView.setImage(image);
+        }
         user = userHibControl.getUserById(user.getId());
         nameField.setText(user.getUsername());
         information.setText(user.getInformation());

@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -64,6 +65,8 @@ public class CourtUpdate implements Initializable {
         imageUrlField.setText(courtHibControl.getCourtById(courtId).getPictureUrl());
         cityComboBox.getSelectionModel().select(courtHibControl.getCourtById(courtId).getCity());
         typeComboBox.getSelectionModel().select(courtHibControl.getCourtById(courtId).getType());
+        Image image = new Image(imageUrlField.getText());
+        imageViewField.setImage(image);
 
     }
 
@@ -111,6 +114,8 @@ public class CourtUpdate implements Initializable {
     }
 
     public void uploadButton(ActionEvent actionEvent) {
+        Image image = new Image(imageUrlField.getText());
+        imageViewField.setImage(image);
     }
 
     @Override
