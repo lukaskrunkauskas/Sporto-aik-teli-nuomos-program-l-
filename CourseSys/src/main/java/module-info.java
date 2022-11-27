@@ -14,6 +14,6 @@ module com.example.coursesys {
     exports com.example.sportoAiksteliuRezervacija.ds;
     exports com.example.sportoAiksteliuRezervacija.ds.enums;
     opens com.example.sportoAiksteliuRezervacija.ds.enums to java.persistence, javafx.fxml, org.hibernate.orm.core;
-    exports com.example.sportoAiksteliuRezervacija.fxControllers to javafx.fxml;
     opens com.example.sportoAiksteliuRezervacija.fxControllers to javafx.fxml;
+    exports com.example.sportoAiksteliuRezervacija.fxControllers;
 }

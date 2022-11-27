@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="361.0" prefWidth="265.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.UserFound">
+   <children>
+      <Text layoutX="30.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Slapyvardis:" />
+      <Text layoutX="30.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="El. paštas:" />
+      <Text layoutX="30.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bio:" />
+      <ImageView fx:id="clientPicture" fitHeight="150.0" fitWidth="200.0" layoutX="33.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="93.0" layoutY="304.0" mnemonicParsing="false" onAction="#goBack" text="Grįžti" />
+      <TextField fx:id="clientUsername" editable="false" layoutX="97.0" layoutY="179.0" />
+      <TextField fx:id="clientEmail" editable="false" layoutX="97.0" layoutY="210.0" />
+      <TextField fx:id="clientBio" editable="false" layoutX="97.0" layoutY="243.0" />
+   </children>
+</AnchorPane>
