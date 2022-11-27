@@ -45,7 +45,7 @@ public class profileTests {
 
     @Test
     public void passwordValidationTest3() {
-        String password = "Zirgogalva123";
+        String password = "Zaragoza123";
         assertFalse(editProfile.isValidPassword(password));
     }
 
