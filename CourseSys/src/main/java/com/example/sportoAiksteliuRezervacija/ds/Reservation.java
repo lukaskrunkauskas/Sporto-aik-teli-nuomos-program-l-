@@ -12,7 +12,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String cardHolder;
-    private int cardNumber;
+    private String cardNumber;
     private int cardCvc;
     private LocalDate cardExpiration;
     @OneToOne
@@ -21,7 +21,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String cardHolder, int cardNumber, int cardCvc, LocalDate cardExpiration, Court court) {
+    public Reservation(String cardHolder, String cardNumber, int cardCvc, LocalDate cardExpiration, Court court) {
         this.cardHolder = cardHolder;
         this.cardNumber = cardNumber;
         this.cardCvc = cardCvc;
@@ -45,11 +45,11 @@ public class Reservation {
         this.cardHolder = cardHolder;
     }
 
-    public int getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 

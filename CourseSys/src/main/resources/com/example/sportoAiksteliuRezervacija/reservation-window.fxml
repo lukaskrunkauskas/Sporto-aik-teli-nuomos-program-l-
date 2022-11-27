@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.ReservationWindow">
+<AnchorPane prefHeight="400.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sportoAiksteliuRezervacija.fxControllers.ReservationWindow">
    <children>
-      <ListView fx:id="reservationDateList" layoutX="346.0" layoutY="62.0" prefHeight="200.0" prefWidth="263.0" />
+      <ListView fx:id="reservationDateList" layoutX="347.0" layoutY="38.0" prefHeight="200.0" prefWidth="263.0" />
       <Text layoutX="43.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aikštelės pavadinimas:" />
       <Text layoutX="41.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aprašymas:" />
       <Text fx:id="courtNameField" layoutX="202.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <TextField fx:id="courtDescriptionField" layoutX="131.0" layoutY="47.0" prefHeight="74.0" prefWidth="171.0" />
       <Text layoutX="82.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Banko sąskaita" />
       <TextField fx:id="bankAccountField" layoutX="79.0" layoutY="230.0" />
       <Text layoutX="82.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Csv" />
       <TextField fx:id="csvField" layoutX="79.0" layoutY="276.0" />
       <Text layoutX="81.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Galiojimo data" />
-      <Text layoutX="346.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Laisvi rezervacijos laikai" />
+      <Text layoutX="346.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Laisvi rezervacijos laikai" />
       <Button layoutX="315.0" layoutY="360.0" mnemonicParsing="false" onAction="#saveReservationAndReserve" text="Rezervuoti" />
       <Button layoutX="224.0" layoutY="360.0" mnemonicParsing="false" onAction="#backToMainWIndow" text="Grįžti" />
       <TextField fx:id="nameAndSurnameField" layoutX="79.0" layoutY="176.0" />
       <Text layoutX="71.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vardas ir pavarde" />
       <DatePicker fx:id="cardExpirationDateField" layoutX="77.0" layoutY="320.0" />
+      <Text fx:id="courtDescriptionField" layoutX="110.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="158.0" />
+      <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="399.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true" />
+
    </children>
 </AnchorPane>

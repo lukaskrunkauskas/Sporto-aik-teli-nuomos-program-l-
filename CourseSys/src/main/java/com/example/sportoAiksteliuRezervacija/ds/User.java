@@ -43,6 +43,7 @@ public class User {
         this.email = email;
         this.randomCode = randomCode;
         this.userType = userType;
+        this.pictureUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png";
     }
 
     public int getId() {

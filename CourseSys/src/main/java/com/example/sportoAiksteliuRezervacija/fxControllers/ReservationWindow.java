@@ -19,6 +19,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -41,7 +43,7 @@ public class ReservationWindow implements Initializable {
     @FXML
     public Text courtNameField;
     @FXML
-    public TextField courtDescriptionField;
+    public Text courtDescriptionField;
     @FXML
     public TextField bankAccountField;
     @FXML
@@ -50,6 +52,8 @@ public class ReservationWindow implements Initializable {
     public TextField nameAndSurnameField;
     @FXML
     public DatePicker cardExpirationDateField;
+    @FXML
+    public ImageView imageView;
 
     private int courtId; //veli// au gausiu is paieskos lango
     private int userId;
@@ -86,7 +90,7 @@ public class ReservationWindow implements Initializable {
         }
     }
 
-     private void fillNameAndDescriptionFields() {
+    private void fillNameAndDescriptionFields() {
         Court selectedCourt = courtHibControl.getCourtById(courtId);
         courtNameField.setText(selectedCourt.getName());
         courtDescriptionField.setText(selectedCourt.getDescription());
@@ -103,6 +107,10 @@ public class ReservationWindow implements Initializable {
         }
         DbUtils.disconnectFromDb(connection, statement);
         check = id != 0;
+        if(courtHibControl.getCourtById(courtId).getPictureUrl() != null) {
+            Image image = new Image(courtHibControl.getCourtById(courtId).getPictureUrl());
+            imageView.setImage(image);
+        }
         if (check) {
             Reservation reservation = reservationHibControl.getReservationById(id);
             nameAndSurnameField.setText(String.valueOf(reservation.getCardHolder()));
@@ -124,7 +132,7 @@ public class ReservationWindow implements Initializable {
         User user = userHibControl.getUserById(userId);
 
         if(validateAccountNumber(bankAccountField.getText())) {
-            Reservation reservation = new Reservation(nameAndSurnameField.getText(), Integer.parseInt(bankAccountField.getText()), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
+            Reservation reservation = new Reservation(nameAndSurnameField.getText(), bankAccountField.getText(), Integer.parseInt(csvField.getText()), cardExpirationDateField.getValue(), selectedCourt);
             if (!check) {
                 reservationHibControl.createReservation(reservation);
             }
