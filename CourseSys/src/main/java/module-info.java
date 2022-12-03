@@ -5,6 +5,10 @@ module com.example.coursesys {
     requires java.persistence;
     requires org.hibernate.orm.core;
     requires java.sql;
+    requires mail;
+    requires spring.context.support;
+    requires spring.context;
+    requires spring.beans;
 
 
     opens com.example.sportoAiksteliuRezervacija to javafx.fxml;
