@@ -31,7 +31,7 @@ public class EmailSendingService {
         final String from = "sportoaiksteliu@gmail.com";
         final String username = "sportoaiksteliu";
         final String password = "fczftyxbwgbpneea";
-        final String sendTo;
+        final String sendTo = "";
 
         Properties props = System.getProperties();
         props.put("mail.smtp.starttls.enable", true);
@@ -113,7 +113,7 @@ public class EmailSendingService {
                     message.setFrom(new InternetAddress(from));
 
                     // Set To: header field of the header.
-                    message.setRecipients(Message.RecipientType.TO, sendTo);
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo));
 
                     // Set Subject: header field
                     message.setSubject(text1);

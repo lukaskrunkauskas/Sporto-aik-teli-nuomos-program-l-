@@ -1,0 +1,6 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Š„òþÿÿÿÿÿ
+c
+java:S1854"HRemove this useless assignment to local variable "entityManagerFactory".(œþì¢ùÿÿÿÿ
+T
+java:S1481"9Remove this unused "entityManagerFactory" local variable.(œþì¢ùÿÿÿÿ

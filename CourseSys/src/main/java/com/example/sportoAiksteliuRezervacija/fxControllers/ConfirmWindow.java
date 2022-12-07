@@ -1,5 +1,6 @@
 package com.example.sportoAiksteliuRezervacija.fxControllers;
 
+import com.example.sportoAiksteliuRezervacija.EmailService.EmailSendingService;
 import com.example.sportoAiksteliuRezervacija.StartGui;
 import com.example.sportoAiksteliuRezervacija.hibernateControllers.UserHibControl;
 import javafx.event.ActionEvent;
@@ -20,6 +21,8 @@ public class ConfirmWindow {
     private int userId;
     String code;
     String dbCode;
+
+    EmailSendingService emailSendingService = new EmailSendingService();
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
@@ -49,7 +52,9 @@ public class ConfirmWindow {
         }
     }
 
-    public void reSend(ActionEvent actionEvent) {}
+    public void reSend(ActionEvent actionEvent) {
+
+    }
 
     private void returnToPrevious() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("login-window.fxml"));
