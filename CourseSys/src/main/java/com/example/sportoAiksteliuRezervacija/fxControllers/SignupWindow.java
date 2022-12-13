@@ -1,5 +1,6 @@
 package com.example.sportoAiksteliuRezervacija.fxControllers;
 
+import com.example.sportoAiksteliuRezervacija.EmailService.EmailSendingService;
 import com.example.sportoAiksteliuRezervacija.StartGui;
 import com.example.sportoAiksteliuRezervacija.ds.User;
 import com.example.sportoAiksteliuRezervacija.ds.enums.UserType;
@@ -27,6 +28,8 @@ public class SignupWindow {
     @FXML
     public TextField emailF;
 
+    EmailSendingService emailSendingService = new EmailSendingService();
+
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("CourseSystemMng");
 
     UserHibControl userHibControl = new UserHibControl(entityManagerFactory);
@@ -41,9 +44,9 @@ public class SignupWindow {
             FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("confirm-window.fxml"));
             Parent root = fxmlLoader.load();
 
+            emailSendingService.sendEmail(user.getEmail(), user.getRandomCode());
             ConfirmWindow confirmWindow = fxmlLoader.getController();
             confirmWindow.setUserFormData(user.getId());
-
             Scene scene = new  Scene(root);
 
             Stage stage = (Stage) pswF.getScene().getWindow();

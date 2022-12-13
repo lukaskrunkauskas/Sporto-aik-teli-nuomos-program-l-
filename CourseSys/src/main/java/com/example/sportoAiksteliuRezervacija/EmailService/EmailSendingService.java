@@ -26,12 +26,12 @@ import static javafx.application.Application.launch;
 @Service
 public class EmailSendingService {
 
-    public void sendEmail(String emailTo) {
+    public void sendEmail(String emailTo, String code) {
         String host="sportoaiksteliu@gmail.com";  //← my email address
         final String user="sportoaiksteliu@gmail.com";//← my email address
         final String password="fczftyxbwgbpneea";//change accordingly   //← my email password
 
-        String to = "lukaskrun@gmail.com";//→ the EMAIL i want to send TO →
+        String to = emailTo;//→ the EMAIL i want to send TO →
 
         // session object
         Properties props = new Properties();
@@ -40,6 +40,8 @@ public class EmailSendingService {
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
 
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
@@ -54,12 +56,12 @@ public class EmailSendingService {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(user));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
-            message.setSubject(" NOTIFICATION APPOINTEMENTT !!! ");
+            message.setSubject("Patvirtinimo kodas");
             //Text in emial :
             //message.setText("  → Text message for Your Appointement ← ");
             //Html code in email :
             message.setContent(
-                    "<h1 style =\"color:red\" >DON'T MISS YOUR APPOINTEMENT !! </h1> <br/> <img width=\"50%\" height=\"50%\" src=https://i.imgur.com/iYcBkOf.png>",
+                    code,
                     "text/html");
 
             //send the message

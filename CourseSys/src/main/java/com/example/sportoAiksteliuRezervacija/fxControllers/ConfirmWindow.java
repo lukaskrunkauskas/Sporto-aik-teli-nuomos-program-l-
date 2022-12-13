@@ -2,6 +2,7 @@ package com.example.sportoAiksteliuRezervacija.fxControllers;
 
 import com.example.sportoAiksteliuRezervacija.EmailService.EmailSendingService;
 import com.example.sportoAiksteliuRezervacija.StartGui;
+import com.example.sportoAiksteliuRezervacija.ds.User;
 import com.example.sportoAiksteliuRezervacija.hibernateControllers.UserHibControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +31,6 @@ public class ConfirmWindow {
     public void setUserFormData(int id) throws IOException {
         if (!isNull(id)) {
             this.userId = id;
-            codeF.setText(userHibControl.getUserById(userId).getRandomCode());
         } else {
             LoginWindow.alertMessage("Blogas naudotojo id perdavimas tarp langu");
             returnToPrevious();
@@ -53,7 +53,8 @@ public class ConfirmWindow {
     }
 
     public void reSend(ActionEvent actionEvent) {
-
+        User user = userHibControl.getUserById(userId);
+        emailSendingService.sendEmail(user.getEmail(), user.getRandomCode());
     }
 
     private void returnToPrevious() throws IOException {

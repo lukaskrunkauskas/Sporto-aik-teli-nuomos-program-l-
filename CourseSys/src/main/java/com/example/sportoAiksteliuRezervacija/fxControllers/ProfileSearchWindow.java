@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -80,7 +81,8 @@ public class ProfileSearchWindow implements Initializable {
     }
     public void viewProfile(MouseEvent mouseEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("user-found.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root);
 
         User user = userHibControl.getUserById(Integer.parseInt(userTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
         UserFound userFound = fxmlLoader.getController();
