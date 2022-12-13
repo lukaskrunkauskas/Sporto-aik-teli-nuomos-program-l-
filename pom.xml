@@ -12,6 +12,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.7.1</junit.version>
+        <sonar.organization>lukaskrunkauskas</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+            <maven.compiler.source>1.8</maven.compiler.source>
+            <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -73,12 +77,12 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.5.7.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.1</version>
-            <scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.junit.jupiter</groupId>-->
+<!--            <artifactId>junit-jupiter-api</artifactId>-->
+<!--            <version>5.7.1</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -86,7 +90,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -98,6 +101,7 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>

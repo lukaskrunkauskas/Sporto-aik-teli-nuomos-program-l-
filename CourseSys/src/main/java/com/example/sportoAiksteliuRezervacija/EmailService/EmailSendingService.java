@@ -26,110 +26,49 @@ import static javafx.application.Application.launch;
 @Service
 public class EmailSendingService {
 
-    public void start(Stage stage) throws IOException {
+    public void sendEmail(String emailTo) {
+        String host="sportoaiksteliu@gmail.com";  //← my email address
+        final String user="sportoaiksteliu@gmail.com";//← my email address
+        final String password="fczftyxbwgbpneea";//change accordingly   //← my email password
 
-        final String from = "sportoaiksteliu@gmail.com";
-        final String username = "sportoaiksteliu";
-        final String password = "fczftyxbwgbpneea";
-        final String sendTo = "";
+        String to = "lukaskrun@gmail.com";//→ the EMAIL i want to send TO →
 
-        Properties props = System.getProperties();
-        props.put("mail.smtp.starttls.enable", true);
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.user", "username");
-        props.put("mail.smtp.password", "password");
+        // session object
+        Properties props = new Properties();
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.starttls.enable", "true");
 
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-        Group root = new Group();
-        Scene scene = new Scene(root, 310, 350);
-        stage.setScene(scene);
-        stage.setTitle("Mail Sender");
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user,password);
+                    }
+                });
 
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(25);
-        grid.setHgap(25);
-        scene.setRoot(grid);
+        //My message :
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.setSubject(" NOTIFICATION APPOINTEMENTT !!! ");
+            //Text in emial :
+            //message.setText("  → Text message for Your Appointement ← ");
+            //Html code in email :
+            message.setContent(
+                    "<h1 style =\"color:red\" >DON'T MISS YOUR APPOINTEMENT !! </h1> <br/> <img width=\"50%\" height=\"50%\" src=https://i.imgur.com/iYcBkOf.png>",
+                    "text/html");
 
-        // "To" Part
-        TextField toadress = new TextField();
-        toadress.setPromptText("lukaskrun@gmail.com");
-        toadress.setPrefColumnCount(20);
-        GridPane.setConstraints(toadress, 0, 0);
-        grid.getChildren().add(toadress);
+            //send the message
+            Transport.send(message);
 
-        // "Subject" Part
-        TextField subject = new TextField();
-        GridPane.setConstraints(subject, 0, 1);
-        grid.getChildren().add(subject);
-        subject.setPromptText("Enter Subject");
-        subject.setPrefColumnCount(20);
-        subject.setPrefHeight(20);
+            System.out.println("message sent successfully via mail ... !!! ");
 
-        // "Body" Part
-        TextArea body = new TextArea();
-        body.setPrefRowCount(10);
-        body.setPrefColumnCount(100);
-        body.setWrapText(true);
-        body.setPrefWidth(150);
-        body.setPromptText("Some text");
-        GridPane.setConstraints(body, 0, 2);
-        String cssDefault = "";
-        body.setText(cssDefault);
-        grid.getChildren().add(body);
+        } catch (MessagingException e) {e.printStackTrace();}
 
-        // Button Part
-        Button btn = new Button();
-        grid.getChildren().add(btn);
-        btn.setText("Send");
-        GridPane.setConstraints(btn, 0, 4);
-        GridPane.setHalignment(btn, HPos.RIGHT);
-
-        stage.show();
-
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                DropShadow shadow = new DropShadow();
-                btn.setEffect(shadow);
-                stage.setScene(scene);
-
-                String text = toadress.getText();
-                String text1 = subject.getText();
-                String text2 = body.getText();
-                stage.show();
-                try {
-                    // Create a default MimeMessage object.
-                    Message message = new MimeMessage(session);
-
-                    // Set From: header field of the header.
-                    message.setFrom(new InternetAddress(from));
-
-                    // Set To: header field of the header.
-                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo));
-
-                    // Set Subject: header field
-                    message.setSubject(text1);
-
-                    // Now set the actual message
-                    message.setText(text2);
-
-                    // Send message
-                    Transport.send(message);
-                    System.out.println("Sent message successfully.");
-                } catch (MessagingException e) {
-                    System.out.println("Sent message failed.");
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
 }

@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="CourseSysHibernate (1)" />
         <module name="CourseSys" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CourseSys" target="17" />
+      <module name="CourseSysHibernate (1)" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
