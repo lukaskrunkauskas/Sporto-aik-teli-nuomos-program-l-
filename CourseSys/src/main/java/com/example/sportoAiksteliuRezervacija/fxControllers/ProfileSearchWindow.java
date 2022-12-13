@@ -80,18 +80,17 @@ public class ProfileSearchWindow implements Initializable {
 
     }
     public void viewProfile(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("user-found.fxml"));
-        Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root);
-
-        User user = userHibControl.getUserById(Integer.parseInt(userTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
-        UserFound userFound = fxmlLoader.getController();
-        userFound.setFormData(userId, user.getId());
-
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.setTitle("Profilio peržiūra");
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader fxmlLoader = new FXMLLoader(StartGui.class.getResource("user-found-fxml"));
+//        Scene scene = new Scene(fxmlLoader.load());
+//
+//        User user = userHibControl.getUserById(Integer.parseInt(userTable.getSelectionModel().getSelectedItem().toString().split(":")[0]));
+//        UserFound userFound = fxmlLoader.getController();
+//        userFound.setFormData(userId, user.getId());
+//
+//        Stage stage = (Stage) backButton.getScene().getWindow();
+//        stage.setTitle("Profilio peržiūra");
+//        stage.setScene(scene);
+//        stage.show();
     }
 
     public void backButton(ActionEvent actionEvent) throws IOException {

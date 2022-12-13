@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import javax.persistence.EntityManagerFactory;
@@ -31,6 +33,10 @@ public class EditProfile implements Initializable {
     public TextField password;
     @FXML
     public TextArea information;
+    @FXML
+    public ImageView imageViewField;
+    @FXML
+    public TextField imageUrlField;
     User user;
     private int userId;
 
@@ -60,6 +66,7 @@ public class EditProfile implements Initializable {
             user.setUsername(name.getText());
             user.setPassword(password.getText());
             user.setEmail(email.getText());
+            user.setPictureUrl(imageUrlField.getText());
             userHibControl.editUser(user);
             successAlert();
         }
@@ -144,5 +151,10 @@ public class EditProfile implements Initializable {
         alert.setContentText("Duomenys sėkmingai pakeisti");
 
         alert.showAndWait();
+    }
+
+    public void uploadButton(ActionEvent actionEvent) {
+        Image image = new Image(imageUrlField.getText());
+        imageViewField.setImage(image);
     }
 }
